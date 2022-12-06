@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/ittehad/static/css/main.d0aa4eed.css",
-    "main.js": "/ittehad/static/js/main.71cb5131.js",
+    "main.css": "/ittehad/static/css/main.d6947c4c.css",
+    "main.js": "/ittehad/static/js/main.2af1e5a4.js",
     "service-worker.js": "/ittehad/service-worker.js",
     "index.html": "/ittehad/index.html",
-    "main.d0aa4eed.css.map": "/ittehad/static/css/main.d0aa4eed.css.map",
-    "main.71cb5131.js.map": "/ittehad/static/js/main.71cb5131.js.map"
+    "main.d6947c4c.css.map": "/ittehad/static/css/main.d6947c4c.css.map",
+    "main.2af1e5a4.js.map": "/ittehad/static/js/main.2af1e5a4.js.map"
   },
   "entrypoints": [
-    "static/css/main.d0aa4eed.css",
-    "static/js/main.71cb5131.js"
+    "static/css/main.d6947c4c.css",
+    "static/js/main.2af1e5a4.js"
   ]
 }
