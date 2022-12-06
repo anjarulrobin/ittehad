@@ -2,13 +2,12 @@ import React from "react";
 import './App.css';
 import {
   Route,
-  BrowserRouter as Router,
+  HashRouter as Router,
   Routes,
 } from "react-router-dom";
 import { AllUsers } from "./components/AllUsers";
 import { GroupList } from "./components/GroupList";
 import { Group } from "./components/Group";
-import { SideBar } from "./components/SideBar";
 import { Login } from "./components/Login";
 import { Home } from "./components/Home";
 import { Teachers } from "./components/Teachers";
