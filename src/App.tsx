@@ -21,7 +21,7 @@ function App() {
     <Router>
       <div className="">
         <div className="m-4">
-          <img className="h-32 w-full" src={`${process.env.PUBLIC_URL}/madrasa.jpg`} alt="photo" />
+          <img className="h-32 w-full" src={`${process.env.PUBLIC_URL}/madrasa.png`} alt="photo" />
           <p className="font-bold text-center mt-2"> Ittehad </p>
         </div>
         <div className="">
