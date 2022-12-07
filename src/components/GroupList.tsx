@@ -8,7 +8,7 @@ interface Group {
     unreadMessageCount: number;
 }
 
-export function GroupList() {
+export default function GroupList() {
     const [groups, setGroups] = useState<Group[]>([]);
 
     useEffect(() => {

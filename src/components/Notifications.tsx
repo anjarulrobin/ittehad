@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { getNotificationsApi } from "../apis/getNotifications";
 import { NotificationResponse } from "../types/notifications";
 
-export function Notifications() {
+export default function Notifications() {
     const [notifications, setNotifications] = useState<NotificationResponse[]>([]);
 
     useEffect(() => {

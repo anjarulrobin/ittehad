@@ -19,7 +19,7 @@ interface GroupInfo {
     // replyOf: Types.ObjectId
 }
 
-export function Group() {
+export default function Group() {
     const { groupId } = useParams();
     const [messages, setMessages] = useState<Message[]>([]);
     const [message, setMessage] = useState<string>('');

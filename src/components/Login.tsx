@@ -4,7 +4,7 @@ import { LoginAPI } from "../apis/login";
 import { LoginCredentials, LoginResponse } from "../types/auth";
 import { tryCatch } from "../utils/trycatch";
 
-export function Login() {
+export default function Login() {
     const [auth, setAuth] = useState<LoginCredentials>();
     const navigate = useNavigate();
     const [authError, setAuthError] = useState<{ flag: boolean, details: string[] }>({ flag: false, details: [] });

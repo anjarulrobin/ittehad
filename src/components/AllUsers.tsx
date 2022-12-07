@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { getUsersApi } from "../apis/getUsers";
 import { UserResponse } from "../types/user";
 
-export function AllUsers() {
+export default function AllUsers() {
     const [users, setUsers] = useState<UserResponse[]>([]);
 
     useEffect(() => {
