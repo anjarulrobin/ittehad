@@ -14,6 +14,7 @@ import { Teachers } from "./components/Teachers";
 import { Representetives } from "./components/Representetives";
 import { Notifications } from "./components/Notifications";
 import { PrivateRoute } from "./PrivateRoute";
+import { register } from "./serviceWorkerRegistration";
 
 function App() {
   return (
@@ -77,5 +78,7 @@ function App() {
     </Router >
   );
 }
+
+register({ onSuccess: (registration) => console.log('Service registered') });
 
 export default App;
