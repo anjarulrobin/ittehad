@@ -10,7 +10,7 @@ export function Login() {
     const [authError, setAuthError] = useState<{ flag: boolean, details: string[] }>({ flag: false, details: [] });
 
     return (
-        <div className="flex justify-center">
+        <div className="flex h-[60%] justify-center items-center">
             <div className="bg-gray-200 shadow-lg shadow-gray-900/80 border-solid border-2 border-gray-600 rounded-lg">
                 <div className="p-2 text-center w-80 h-80 bg-white rounded-lg shadow">
                     <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900">
