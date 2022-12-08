@@ -27,7 +27,7 @@ export default function Teachers() {
 
     let currRefId = 0;
     return (
-        <div id="accordion-collapse" data-accordion="collapse" className=" overflow-scroll p-4 ">
+        <div className="p-4">
             <p className="text-center h-5 text-green-300"> Teachers </p>
             {
                 users.map((user, index) => (

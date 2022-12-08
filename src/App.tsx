@@ -33,7 +33,7 @@ function App() {
             </svg>
           </div>
         </div>
-        <div className="rounded-t-[48px] h-screen bg-white px-2 py-2">
+        <div className="rounded-t-[48px] h-fit overflow-auto bg-white px-2 py-2">
           <Routes>
             <Route path='/notifications'
               element={

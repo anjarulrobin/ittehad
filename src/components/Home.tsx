@@ -7,8 +7,6 @@ export default function Home() {
         navigate('/login', { replace: true });
     }
     return (
-
-
         <div className="grid grid-cols-2">
             {
                 [
@@ -57,8 +55,8 @@ export default function Home() {
                         svgD: ['M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z']
                     }
                 ].map((v, index) => (
-                    <Link key={index} to={v.path} className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg">
-                        <div className="w-32 h-32 bg-gray-200 shadow-lg shadow-gray-900/80 border-solid border-2 border-gray-600 rounded-lg m-4">
+                    <Link key={index} to={v.path} className="flex items-center p-2 text-base font-norma rounded-lg">
+                        <div className="w-32 h-32 shadow-[0px_6px_32px_rgba(0,0,0,0.04)] m-4">
                             <div className="flex justify-center mt-2">
                                 <div>
                                     {getSvg(v.path)}
