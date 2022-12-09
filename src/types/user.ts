@@ -10,7 +10,7 @@ export interface UserListRequestParams {
     name?: string;
 }
 
-export interface UserResponse {
+export interface User {
     id: string;
     _id: string;
     name: string;
@@ -50,7 +50,7 @@ export interface UserResponse {
 
 interface UserListSuccessResponse extends CommonResponse {
     code: 200;
-    data: UserResponse[]
+    data: User[]
 }
 
 interface UserListFailedResponse extends CommonResponse {
@@ -113,4 +113,15 @@ interface GetProfileFailedResponse extends CommonResponse {
 }
 
 export type UserProfileResponse = GetProfileSuccessResponse | GetProfileFailedResponse;
+
+interface GetUserSuccessResponse extends CommonResponse {
+    code: 200;
+    data: User
+}
+
+interface GetUserFailedResponse extends CommonResponse {
+    code: 400;
+}
+
+export type UserResponse = GetUserSuccessResponse | GetUserFailedResponse;
 

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { getUsersApi } from "../apis/getUsers";
-import { UserResponse } from "../types/user";
+import { User } from "../types/user";
 
 export default function Teachers() {
-    const [users, setUsers] = useState<UserResponse[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
         getUsersApi({ limit: 15, skip: 0, passingYear: 2020, userType: 'teacher' })
@@ -54,7 +54,7 @@ export default function Teachers() {
                                         svgRefs.current[index].style.transition = 'transform 150ms ease'; // smooth transition
                                     }
                                 }}
-                                className="flex items-center h-20 justify-between w-full font-medium text-left text-gray-500 border border-b-0 border-gray-200 rounded-t-xl"
+                                className="flex items-center h-20 justify-between w-full font-medium text-left"
                                 data-accordion-target={`#accordion-collapse-body-${user.id}`}
                                 aria-expanded="true"
                                 aria-controls={`#accordion-collapse-body-${user.id}`}>

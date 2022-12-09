@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import './App.css';
 import {
   Route,
@@ -15,14 +15,17 @@ const Home = lazy(() => import("./components/Home"));
 const Teachers = lazy(() => import("./components/Teachers"));
 const Representetives = lazy(() => import("./components/Representetives"));
 const Notifications = lazy(() => import("./components/Notifications"));
+const User = lazy(() => import("./components/User"));
 
 function App() {
+  const [title, setTitle] = useState<string>('ইত্তেহাদ');
+
   return (
-    <Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <div className="flex justify-between m-10">
           <div className="font-extrabold text-white text-xl">
-            ইত্তেহাদ
+            {title}
           </div>
           <div className="w-16">
             <svg width="72" height="24" viewBox="0 0 72 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -35,45 +38,17 @@ function App() {
         </div>
         <div className="rounded-t-[48px] h-fit overflow-auto bg-white px-2 py-2">
           <Routes>
-            <Route path='/notifications'
-              element={
-                <PrivateRoute >
-                  <Notifications />
-                </PrivateRoute>
-              }
-            />
-            <Route path='/groups/:groupId' element={
-              <PrivateRoute>
-                <Group />
-              </PrivateRoute>
-            } />
-            <Route path='/groups' element={
-              <PrivateRoute>
-                <GroupList />
-              </PrivateRoute>
-            } />
-            <Route path='/teachers' element={
-              <PrivateRoute>
-                <Teachers />
-              </PrivateRoute>
-            } />
-            <Route path='/representatives' element={
-              <PrivateRoute>
-                <Representetives />
-              </PrivateRoute>
-            } />
-            <Route path='/teachers-and-students' element={
-              <PrivateRoute>
-                <AllUsers />
-              </PrivateRoute>
-            } />
-            <Route path='*' element={
-              <PrivateRoute>
-                <Home />
-              </PrivateRoute>
-            } />
-
             <Route path='/login' element={<Login />} />
+            <Route element={<PrivateRoute />}>
+              <Route path='/notifications' element={<Notifications />} />
+              <Route path='/groups/:groupId' element={<Group />} />
+              <Route path='/groups' element={<GroupList />} />
+              <Route path='/teachers' element={<Teachers />} />
+              <Route path='/representatives' element={<Representetives />} />
+              <Route path='/teachers-and-students' element={<AllUsers />} />
+              <Route path='/users/:userId' element={<User />} />
+              <Route path='*' element={<Home />} />
+            </Route>
           </Routes>
         </div>
       </Router >

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { getUsersApi } from "../apis/getUsers";
-import { UserResponse } from "../types/user";
+import { User } from "../types/user";
 
 export default function Representetives() {
-    const [users, setUsers] = useState<UserResponse[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
         getUsersApi({ limit: 15, skip: 0, passingYear: 2020, userTags: 'Jimmadar' })
