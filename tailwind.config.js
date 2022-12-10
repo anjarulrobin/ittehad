@@ -4,7 +4,16 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'hind-shiliguri': ['"Hind Siliguri"'],
+        'kalpurush': ['"Kalpurush"']
+      },
+      fontWeight: {
+        title: "600",
+        profileName: "400"
+      }
+    },
   },
   plugins: [],
 }
