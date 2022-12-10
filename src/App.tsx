@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import { register } from "./serviceWorkerRegistration";
-const AllUsers = lazy(() => import("./components/AllUsers"));
+const UserFilter = lazy(() => import("./components/UserFilter"));
 const GroupList = lazy(() => import("./components/GroupList"));
 const Group = lazy(() => import("./components/Group"));
 const Login = lazy(() => import("./components/Login"));
@@ -36,7 +36,7 @@ function App() {
             </svg>
           </div>
         </div>
-        <div className="rounded-t-[48px] h-fit overflow-auto bg-white px-2 py-2">
+        <div className="rounded-t-[48px] rounded-b-2xl h-fit overflow-auto bg-white px-2 py-2">
           <Routes>
             <Route path='/login' element={<Login />} />
             <Route element={<PrivateRoute />}>
@@ -45,7 +45,7 @@ function App() {
               <Route path='/groups' element={<GroupList />} />
               <Route path='/teachers' element={<Teachers />} />
               <Route path='/representatives' element={<Representetives />} />
-              <Route path='/teachers-and-students' element={<AllUsers />} />
+              <Route path='/teachers-and-students' element={<UserFilter />} />
               <Route path='/users/:userId' element={<User />} />
               <Route path='*' element={<Home />} />
             </Route>
