@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/ittehad/static/css/main.7eae29bf.css",
-    "main.js": "/ittehad/static/js/main.fc401899.js",
+    "main.css": "/ittehad/static/css/main.561fb64c.css",
+    "main.js": "/ittehad/static/js/main.f18e49e4.js",
     "static/js/724.d23f474d.chunk.js": "/ittehad/static/js/724.d23f474d.chunk.js",
     "static/js/746.b1b6e796.chunk.js": "/ittehad/static/js/746.b1b6e796.chunk.js",
     "static/js/989.78fedfd7.chunk.js": "/ittehad/static/js/989.78fedfd7.chunk.js",
     "static/js/627.e240b7d0.chunk.js": "/ittehad/static/js/627.e240b7d0.chunk.js",
     "static/js/444.2adb12e2.chunk.js": "/ittehad/static/js/444.2adb12e2.chunk.js",
-    "static/js/431.c4c9e6c6.chunk.js": "/ittehad/static/js/431.c4c9e6c6.chunk.js",
+    "static/js/58.795f966c.chunk.js": "/ittehad/static/js/58.795f966c.chunk.js",
     "static/js/362.ec4050f8.chunk.js": "/ittehad/static/js/362.ec4050f8.chunk.js",
     "static/js/482.b8dcbea9.chunk.js": "/ittehad/static/js/482.b8dcbea9.chunk.js",
     "static/js/785.c1711d7a.chunk.js": "/ittehad/static/js/785.c1711d7a.chunk.js",
@@ -16,14 +16,14 @@
     "static/js/922.fbfa496e.chunk.js": "/ittehad/static/js/922.fbfa496e.chunk.js",
     "service-worker.js": "/ittehad/service-worker.js",
     "index.html": "/ittehad/index.html",
-    "main.7eae29bf.css.map": "/ittehad/static/css/main.7eae29bf.css.map",
-    "main.fc401899.js.map": "/ittehad/static/js/main.fc401899.js.map",
+    "main.561fb64c.css.map": "/ittehad/static/css/main.561fb64c.css.map",
+    "main.f18e49e4.js.map": "/ittehad/static/js/main.f18e49e4.js.map",
     "724.d23f474d.chunk.js.map": "/ittehad/static/js/724.d23f474d.chunk.js.map",
     "746.b1b6e796.chunk.js.map": "/ittehad/static/js/746.b1b6e796.chunk.js.map",
     "989.78fedfd7.chunk.js.map": "/ittehad/static/js/989.78fedfd7.chunk.js.map",
     "627.e240b7d0.chunk.js.map": "/ittehad/static/js/627.e240b7d0.chunk.js.map",
     "444.2adb12e2.chunk.js.map": "/ittehad/static/js/444.2adb12e2.chunk.js.map",
-    "431.c4c9e6c6.chunk.js.map": "/ittehad/static/js/431.c4c9e6c6.chunk.js.map",
+    "58.795f966c.chunk.js.map": "/ittehad/static/js/58.795f966c.chunk.js.map",
     "362.ec4050f8.chunk.js.map": "/ittehad/static/js/362.ec4050f8.chunk.js.map",
     "482.b8dcbea9.chunk.js.map": "/ittehad/static/js/482.b8dcbea9.chunk.js.map",
     "785.c1711d7a.chunk.js.map": "/ittehad/static/js/785.c1711d7a.chunk.js.map",
@@ -32,7 +32,7 @@
     "922.fbfa496e.chunk.js.map": "/ittehad/static/js/922.fbfa496e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.7eae29bf.css",
-    "static/js/main.fc401899.js"
+    "static/css/main.561fb64c.css",
+    "static/js/main.f18e49e4.js"
   ]
 }
