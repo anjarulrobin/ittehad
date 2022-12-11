@@ -5,8 +5,8 @@ import Teachers from "./Teachers";
 
 function getYearRange() {
     const yearRange = []
-    for (let i = 1950; i < 2050; i += 10) {
-        yearRange.push({ start: i, end: i + 10 });
+    for (let i = 1990; i < 2030; i += 5) {
+        yearRange.push({ start: i, end: i + 5 });
     }
 
     return yearRange;
