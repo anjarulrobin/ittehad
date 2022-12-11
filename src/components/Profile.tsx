@@ -62,7 +62,7 @@ export default function Profile() {
             </div>
 
             <div className="flex-col  mt-1 mb-1">
-                <p className="text-center font-profileName font-kalpurush items-center">{user?.name}</p>
+                <p className="text-center font-ittehad-subtitle font-ittehad-kalpurush items-center">{user?.name}</p>
                 <div className="flex justify-center">
                     <p className="w-fit px-2 py-2 pt-0 pb-0 m-1 bg-[#E1FFF8] text-[#20BB96] rounded-md">{user?.userType === 'teacher' ? 'ফুজালা' : 'আবনা'}</p>
                     <p className="w-fit px-2 py-2 pt-0 pb-0 m-1 bg-[#E1FFF8] text-[#20BB96] rounded-md">{user?.passingYear}</p>

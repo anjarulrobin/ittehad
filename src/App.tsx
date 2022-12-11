@@ -18,6 +18,7 @@ const Representetives = lazy(() => import("./components/Representetives"));
 const Notifications = lazy(() => import("./components/Notifications"));
 const User = lazy(() => import("./components/User"));
 const Profile = lazy(() => import("./components/Profile"));
+const Committee = lazy(() => import("./components/Committee"));
 
 function App() {
   const [title, setTitle] = useState<string>('ইত্তেহাদ');
@@ -26,7 +27,7 @@ function App() {
     <Suspense fallback={<div>Loading...</div>}>
       <Router>
         <div className="flex justify-between m-7">
-          <div className="font-hind-shiliguri font-title text-white text-xl">
+          <div className="font-ittehad-hind-shiliguri font-ittehad-title text-white text-xl">
             {title}
           </div>
           <div className="w-16 flex justify-between">
@@ -58,6 +59,7 @@ function App() {
               <Route path='/teachers-and-students' element={<UserFilter />} />
               <Route path='/users/:userId' element={<User />} />
               <Route path='/profile' element={<Profile />} />
+              <Route path='/committee' element={<Committee />} />
               <Route path='*' element={<Home />} />
             </Route>
           </Routes>

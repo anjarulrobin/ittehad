@@ -56,6 +56,7 @@ export default function UserFilter() {
                         {yearRange.map((range) => (
                             <div
                                 className="bg-[#20BB96] rounded-lg m-1 p-1 w-20 h-12 flex text-center justify-center"
+                                key={`${range.start}-${range.end}`}
                             >
                                 <button
                                     value={`${range.start}-${range.end}`}

@@ -6,12 +6,12 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'hind-shiliguri': ['"Hind Siliguri"'],
-        'kalpurush': ['"Kalpurush"']
+        'ittehad-hind-shiliguri': ['"Hind Siliguri"'],
+        'ittehad-kalpurush': ['"Kalpurush"']
       },
       fontWeight: {
-        title: "600",
-        profileName: "400"
+        'ittehad-title': "600",
+        'ittehad-subtitle': "400"
       }
     },
   },
