@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ittehad/static/css/main.ca4fe452.css",
-    "main.js": "/ittehad/static/js/main.1a00a41e.js",
+    "main.css": "/ittehad/static/css/main.d925c2e9.css",
+    "main.js": "/ittehad/static/js/main.32f1396a.js",
     "static/js/724.842f97b7.chunk.js": "/ittehad/static/js/724.842f97b7.chunk.js",
     "static/js/746.b1b6e796.chunk.js": "/ittehad/static/js/746.b1b6e796.chunk.js",
     "static/js/989.78fedfd7.chunk.js": "/ittehad/static/js/989.78fedfd7.chunk.js",
@@ -13,12 +13,13 @@
     "static/js/785.1c2c5397.chunk.js": "/ittehad/static/js/785.1c2c5397.chunk.js",
     "static/js/65.371c9c1c.chunk.js": "/ittehad/static/js/65.371c9c1c.chunk.js",
     "static/js/80.b5998c47.chunk.js": "/ittehad/static/js/80.b5998c47.chunk.js",
+    "static/js/642.9c913478.chunk.js": "/ittehad/static/js/642.9c913478.chunk.js",
     "static/js/807.a3c3b030.chunk.js": "/ittehad/static/js/807.a3c3b030.chunk.js",
     "static/js/922.fbfa496e.chunk.js": "/ittehad/static/js/922.fbfa496e.chunk.js",
     "service-worker.js": "/ittehad/service-worker.js",
     "index.html": "/ittehad/index.html",
-    "main.ca4fe452.css.map": "/ittehad/static/css/main.ca4fe452.css.map",
-    "main.1a00a41e.js.map": "/ittehad/static/js/main.1a00a41e.js.map",
+    "main.d925c2e9.css.map": "/ittehad/static/css/main.d925c2e9.css.map",
+    "main.32f1396a.js.map": "/ittehad/static/js/main.32f1396a.js.map",
     "724.842f97b7.chunk.js.map": "/ittehad/static/js/724.842f97b7.chunk.js.map",
     "746.b1b6e796.chunk.js.map": "/ittehad/static/js/746.b1b6e796.chunk.js.map",
     "989.78fedfd7.chunk.js.map": "/ittehad/static/js/989.78fedfd7.chunk.js.map",
@@ -30,11 +31,12 @@
     "785.1c2c5397.chunk.js.map": "/ittehad/static/js/785.1c2c5397.chunk.js.map",
     "65.371c9c1c.chunk.js.map": "/ittehad/static/js/65.371c9c1c.chunk.js.map",
     "80.b5998c47.chunk.js.map": "/ittehad/static/js/80.b5998c47.chunk.js.map",
+    "642.9c913478.chunk.js.map": "/ittehad/static/js/642.9c913478.chunk.js.map",
     "807.a3c3b030.chunk.js.map": "/ittehad/static/js/807.a3c3b030.chunk.js.map",
     "922.fbfa496e.chunk.js.map": "/ittehad/static/js/922.fbfa496e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ca4fe452.css",
-    "static/js/main.1a00a41e.js"
+    "static/css/main.d925c2e9.css",
+    "static/js/main.32f1396a.js"
   ]
 }
