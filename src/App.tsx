@@ -19,6 +19,7 @@ const Notifications = lazy(() => import("./components/Notifications"));
 const User = lazy(() => import("./components/User"));
 const Profile = lazy(() => import("./components/Profile"));
 const Committee = lazy(() => import("./components/Committee"));
+const Contact = lazy(() => import("./components/Contact"));
 
 function App() {
   const [title, setTitle] = useState<string>('ইত্তেহাদ');
@@ -60,6 +61,7 @@ function App() {
               <Route path='/users/:userId' element={<User />} />
               <Route path='/profile' element={<Profile />} />
               <Route path='/committee' element={<Committee />} />
+              <Route path='/contact' element={<Contact />} />
               <Route path='*' element={<Home />} />
             </Route>
           </Routes>
