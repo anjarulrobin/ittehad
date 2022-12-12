@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserApi } from "../apis/getUser";
-import { User as UserType } from "../types/user";
+import { User as UserType, UserAddress, PersonalInfo, OtherInfo } from "../types/user";
 
 function UpperIcon() {
     return (
@@ -19,12 +19,49 @@ function LowerIcon() {
     )
 }
 
+function EditIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#20BB96" className="w-5 h-5">
+            <path d="M2.695 14.763l-1.262 3.154a.5.5 0 00.65.65l3.155-1.262a4 4 0 001.343-.885L17.5 5.5a2.121 2.121 0 00-3-3L3.58 13.42a4 4 0 00-.885 1.343z" />
+        </svg>
+    )
+}
+
+function CancelIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#20BB96" className="w-6 h-6">
+            <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" />
+        </svg>
+    )
+}
+
+function SaveIcon() {
+    return (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#20BB96" className="w-5 h-5">
+            <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+        </svg>
+    )
+}
+
+enum ViewOrEdit {
+    none = '',
+    view = 'view',
+    edit = 'edit'
+}
+
 export default function Profile() {
     const [user, setUser] = useState<UserType | null>();
-    const [isContactSelected, setContactSelected] = useState<boolean>(false);
-    const [isCurrentAddressSelected, setCurrentAddressSelected] = useState<boolean>(false);
-    const [isPermanentAddressSelected, setPermanentAddressSelected] = useState<boolean>(false);
-    const [isOthersSelected, setOthersSelected] = useState<boolean>(false);
+    const [personalInfoSelection, setPersonalInfoSelection] = useState<[Partial<PersonalInfo>, ViewOrEdit]>([
+        {
+            bloodGroup: 'A+',
+            phone: user?.phone
+        },
+        ViewOrEdit.none
+    ]);
+    const [currentAddressSelection, setCurrentAddressSelection] = useState<[Partial<UserAddress>, ViewOrEdit]>([user?.currentAddress || {}, ViewOrEdit.none]);
+    const [permanentAddressSelection, setPermanentAddressSelection] = useState<[Partial<UserAddress>, ViewOrEdit]>([{}, ViewOrEdit.none]);
+    const [othersSelection, setOthersSelection] = useState<[Partial<OtherInfo>, ViewOrEdit]>([{}, ViewOrEdit.none]);
+
     const nav = useNavigate();
     useEffect(() => {
         getUserApi('1')
@@ -72,15 +109,15 @@ export default function Profile() {
             {/* Contact */}
             <button
                 className="w-full mt-4 mb-4 flex justify-between"
-                onClick={() => setContactSelected(!isContactSelected)}
+                onClick={() => setPersonalInfoSelection([personalInfoSelection[0], personalInfoSelection[1] === ViewOrEdit.none ? ViewOrEdit.view : ViewOrEdit.none])}
             >
                 <p className="font-medium" style={{ fontFamily: 'Hind Siliguri' }}>ব্যক্তিগত তথ্য</p>
                 <div className="pt-3">
-                    {isContactSelected ? <UpperIcon /> : <LowerIcon />}
+                    {personalInfoSelection[1] === ViewOrEdit.view ? <UpperIcon /> : <LowerIcon />}
                 </div>
             </button>
             {
-                isContactSelected &&
+                personalInfoSelection[1] === ViewOrEdit.view &&
                 (<div className="mx-2 mt-2 text-sm">
                     <p className="mt-1 p-1"> মোবাইল: {user?.phone}</p>
                     <p className="mt-1 p-1 text-sm"> রক্তের গ্রুপ: এ+ </p>
@@ -90,35 +127,115 @@ export default function Profile() {
             {/* current address */}
             <button
                 className="w-full mt-4 mb-4 flex justify-between"
-                onClick={() => setCurrentAddressSelected(!isCurrentAddressSelected)}
+                onClick={() => setCurrentAddressSelection([currentAddressSelection[0], currentAddressSelection[1] === ViewOrEdit.none ? ViewOrEdit.view : ViewOrEdit.none])}
+
             >
                 <p className="font-medium" style={{ fontFamily: 'Hind Siliguri' }}>বর্তমান ঠিকানা</p>
                 <div className="pt-3">
-                    {isCurrentAddressSelected ? <UpperIcon /> : <LowerIcon />}
+                    {currentAddressSelection[1] === ViewOrEdit.view ? <UpperIcon /> : <LowerIcon />}
                 </div>
             </button>
             {
-                isCurrentAddressSelected &&
-                (<div className="mx-2 mt-2 text-sm">
-                    <p> গ্রাম: {user?.currentAddress.village} </p>
-                    <p> পোস্ট: {user?.currentAddress.post} </p>
-                    <p> উপজেলা: {user?.currentAddress.upzilla.bn_name} </p>
-                    <p> জেলা: {user?.currentAddress.district.bn_name}</p>
-                </div>)
+                currentAddressSelection[1] === ViewOrEdit.view ?
+                    (<div className="mx-2 mt-2 text-sm flex items-start justify-between">
+                        <div>
+                            <p> গ্রাম: {user?.currentAddress.village} </p>
+                            <p> পোস্ট: {user?.currentAddress.post} </p>
+                            <p> উপজেলা: {user?.currentAddress.upzilla.bn_name} </p>
+                            <p> জেলা: {user?.currentAddress.district.bn_name}</p>
+                        </div>
+                        <button
+                            className="mx-2"
+                            onClick={() => setCurrentAddressSelection([currentAddressSelection[0], ViewOrEdit.edit])}
+                        >
+                            <EditIcon />
+                        </button>
+                    </div>) :
+                    currentAddressSelection[1] === ViewOrEdit.edit &&
+                    (<div className="mx-2 mt-2">
+                        <div className="flex justify-end">
+                            <div className="w-14 justify-between flex m-1">
+                                <button
+                                    className="mx-2"
+                                    onClick={() => setCurrentAddressSelection([currentAddressSelection[0], ViewOrEdit.view])}
+                                >
+                                    <CancelIcon />
+                                </button>
+                                <button
+                                    className="mx-2"
+                                    onClick={() => setCurrentAddressSelection([currentAddressSelection[0], ViewOrEdit.view])}
+                                >
+                                    <SaveIcon />
+                                </button>
+                            </div>
+                        </div>
+
+                        <form
+                            action="#"
+                            onSubmit={() => alert('Submitted')}
+                        >
+                            <div className="m-2 flex">
+                                <label className="w-16 m-1 p-1.5 text-start items-center">
+                                    গ্রাম:
+                                </label>
+                                <input type={'text'} name="গ্রাম" value={user?.currentAddress.village}
+                                    className="border border-[#20BB96] rounded-lg m-2 p-1.5 text-center items-center"
+                                />
+                            </div>
+                            <div className="m-2 flex">
+                                <label className="w-16 m-1 p-1.5 text-start items-center">
+                                    পোস্ট:
+                                </label>
+                                <input type={'text'} name="পোস্ট" value={user?.currentAddress.post}
+                                    className="border border-[#20BB96] rounded-lg m-2 p-1.5 text-center items-center"
+                                />
+                            </div>
+                            <div className="m-2 flex">
+                                <label className="w-16 m-1 p-1.5 text-start items-center">
+                                    উপজেলা:
+                                </label>
+                                <select name="উপজেলা"
+                                    className="border border-[#20BB96] w-fit rounded-lg m-2 p-1.5 text-center items-center"
+                                >
+                                    <option selected={true} value={user?.currentAddress.upzilla.bn_name}>{user?.currentAddress.upzilla.bn_name}</option>
+                                    <option value="শরীয়তপুর">শরীয়তপুর</option>
+                                    <option value="গাজীপুর">গাজীপুর</option>
+                                    <option value="নরসিংদী">নরসিংদী</option>
+                                    <option value="নারায়ণগঞ্জ">নারায়ণগঞ্জ</option>
+                                    <option value="টাঙ্গাইল">টাঙ্গাইল</option>
+                                </select>
+                            </div>
+                            <div className="m-2 flex">
+                                <label className="w-16 m-1 p-1.5 text-start items-center">
+                                    জেলা:
+                                </label>
+                                <select name="জেলা"
+                                    className="border border-[#20BB96] w-fit rounded-lg m-2 p-1.5 text-center items-center"
+                                >
+                                    <option selected={true} value={"নারায়নগঞ্জ সদর"}>নারায়নগঞ্জ সদর</option>
+                                    <option value="আড়াইহাজার উপজেলা">আড়াইহাজার উপজেলা</option>
+                                    <option value="বন্দর উপজেলা">বন্দর উপজেলা</option>
+                                    <option value="নারায়নগঞ্জ সদর">নারায়নগঞ্জ সদর</option>
+                                    <option value="রূপগঞ্জ উপজেলা">রূপগঞ্জ উপজেলা</option>
+                                    <option value="সোনারগাঁ উপজেলা">সোনারগাঁ উপজেলা</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>)
             }
 
             {/* Permanent address */}
             <button
                 className="w-full mt-4 mb-4 flex justify-between"
-                onClick={() => setPermanentAddressSelected(!isPermanentAddressSelected)}
+                onClick={() => setPermanentAddressSelection([permanentAddressSelection[0], permanentAddressSelection[1] === ViewOrEdit.none ? ViewOrEdit.view : ViewOrEdit.none])}
             >
                 <p className="font-medium" style={{ fontFamily: 'Hind Siliguri' }}>স্থায়ী ঠিকানা</p>
                 <div className="pt-3">
-                    {isPermanentAddressSelected ? <UpperIcon /> : <LowerIcon />}
+                    {permanentAddressSelection[1] === ViewOrEdit.view ? <UpperIcon /> : <LowerIcon />}
                 </div>
             </button>
             {
-                isPermanentAddressSelected &&
+                permanentAddressSelection[1] === ViewOrEdit.view &&
                 (<div className="mx-2 mt-2 text-sm">
                     <p> গ্রাম: {user?.permanentAddress.village} </p>
                     <p> পোস্ট: {user?.permanentAddress.post} </p>
@@ -130,15 +247,15 @@ export default function Profile() {
             {/* Others */}
             <button
                 className="w-full mt-4 mb-4 flex justify-between"
-                onClick={() => setOthersSelected(!isOthersSelected)}
+                onClick={() => setOthersSelection([othersSelection[0], othersSelection[1] === ViewOrEdit.none ? ViewOrEdit.view : ViewOrEdit.none])}
             >
                 <p className="font-medium" style={{ fontFamily: 'Hind Siliguri' }}>অন্যান্য</p>
                 <div className="pt-3">
-                    {isOthersSelected ? <UpperIcon /> : <LowerIcon />}
+                    {othersSelection[1] === ViewOrEdit.view ? <UpperIcon /> : <LowerIcon />}
                 </div>
             </button>
             {
-                isOthersSelected &&
+                othersSelection[1] === ViewOrEdit.view &&
                 (<div className="mx-2 mt-2 text-sm">
                     <p > পিতার নাম: {user?.fathersName}</p>
                 </div>)

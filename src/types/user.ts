@@ -10,6 +10,30 @@ export interface UserListRequestParams {
     name?: string;
 }
 
+export interface UserAddress {
+    district: {
+        id: string;
+        name: string;
+        bn_name?: string;
+    }
+    post: string;
+    upzilla: {
+        id: string;
+        name: string;
+        bn_name?: string;
+    }
+    village: string
+}
+
+export interface PersonalInfo {
+    bloodGroup: string;
+    phone: string;
+}
+
+export interface OtherInfo {
+    fathersName: string;
+}
+
 export interface User {
     id: string;
     _id: string;
@@ -18,34 +42,8 @@ export interface User {
     passingYear: number;
     userType: "teacher" | "student";
     fathersName: string;
-    currentAddress: {
-        district: {
-            id: string;
-            name: string;
-            bn_name?: string;
-        }
-        post: string;
-        upzilla: {
-            id: string;
-            name: string;
-            bn_name?: string;
-        }
-        village: string
-    },
-    permanentAddress: {
-        district: {
-            id: string;
-            name: string;
-            bn_name?: string;
-        }
-        post: string;
-        upzilla: {
-            id: string;
-            name: string;
-            bn_name?: string;
-        }
-        village: string
-    }
+    currentAddress: UserAddress,
+    permanentAddress: UserAddress
 }
 
 interface UserListSuccessResponse extends CommonResponse {
