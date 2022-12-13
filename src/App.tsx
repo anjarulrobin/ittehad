@@ -9,8 +9,7 @@ import {
 import { PrivateRoute } from "./PrivateRoute";
 import { register } from "./serviceWorkerRegistration";
 const UserFilter = lazy(() => import("./components/UserFilter"));
-const GroupList = lazy(() => import("./components/GroupList"));
-const Group = lazy(() => import("./components/Group"));
+const Discussion = lazy(() => import("./components/Discussion"));
 const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home"));
 const Teachers = lazy(() => import("./components/Teachers"));
@@ -60,8 +59,7 @@ function App() {
                 <Route element={<PrivateRoute />}>
                   <Route path='/notifications' element={<Notifications />} />
                   <Route path='/notifications/:id' element={<NotificationDetails />} />
-                  <Route path='/groups/:groupId' element={<Group />} />
-                  <Route path='/groups' element={<GroupList />} />
+                  <Route path='/discussion/' element={<Discussion />} />
                   <Route path='/teachers' element={<Teachers />} />
                   <Route path='/representatives' element={<Representetives />} />
                   <Route path='/teachers-and-students' element={<UserFilter />} />
