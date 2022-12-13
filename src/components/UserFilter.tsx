@@ -29,7 +29,7 @@ interface YearSelection {
 
 export default function UserFilter() {
     const [yearSelection, setYearSelection] = useState<YearSelection>({
-        openYearRangeSelection: false,
+        openYearRangeSelection: true,
         openYearSelection: false,
         startYear: 0,
         endYear: 0,
