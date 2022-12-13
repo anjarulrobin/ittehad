@@ -26,15 +26,15 @@ export default function Home() {
                         name: 'শুরা ও কমিটি',
                         path: '/committee',
                     },
-                    {
-                        name: 'রক্তদান',
-                        path: '/blood-donation',
+                    // {
+                    //     name: 'রক্তদান',
+                    //     path: '/blood-donation',
 
-                    },
-                    {
-                        name: 'খেদমত',
-                        path: '/serve',
-                    },
+                    // },
+                    // {
+                    //     name: 'খেদমত',
+                    //     path: '/serve',
+                    // },
                     {
                         name: 'মোজাকারা',
                         path: '/groups',
@@ -136,16 +136,16 @@ const getSvg = (name: string) => {
                 <path d="M25 27.23C25 28.42 24.56 29.52 23.82 30.39C22.83 31.59 21.26 32.36 19.5 32.36L16.89 33.91C16.45 34.18 15.89 33.81 15.95 33.3L16.2 31.33C14.86 30.4 14 28.91 14 27.23C14 25.47 14.94 23.92 16.38 23C17.27 22.42 18.34 22.09 19.5 22.09C22.54 22.09 25 24.39 25 27.23Z" fill="#20BB96" />
             </svg>
             );
-        case '/blood-donation':
-            return (<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="24" cy="24" r="24" fill="#DAFFF6" />
-            </svg>
-            );
-        case '/serve':
-            return (<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="24" cy="24" r="24" fill="#DAFFF6" />
-            </svg>
-            );
+        // case '/blood-donation':
+        //     return (<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //         <circle cx="24" cy="24" r="24" fill="#DAFFF6" />
+        //     </svg>
+        //     );
+        // case '/serve':
+        //     return (<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        //         <circle cx="24" cy="24" r="24" fill="#DAFFF6" />
+        //     </svg>
+        //     );
 
     }
 }

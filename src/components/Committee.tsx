@@ -63,7 +63,7 @@ export default function Committee() {
 function UpperIcon() {
     return (
         <svg width="18" height="11" viewBox="0 0 18 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.92 9.05014L10.4 2.53014C9.62996 1.76014 8.36996 1.76014 7.59996 2.53014L1.07996 9.05014" stroke="#20BB96" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M16.92 9.05014L10.4 2.53014C9.62996 1.76014 8.36996 1.76014 7.59996 2.53014L1.07996 9.05014" stroke="#20BB96" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     )
 }
@@ -71,7 +71,7 @@ function UpperIcon() {
 function LowerIcon() {
     return (
         <svg width="18" height="11" viewBox="0 0 18 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M16.92 1.9502L10.4 8.4702C9.62996 9.2402 8.36996 9.2402 7.59996 8.4702L1.07996 1.9502" stroke="#20BB96" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M16.92 1.9502L10.4 8.4702C9.62996 9.2402 8.36996 9.2402 7.59996 8.4702L1.07996 1.9502" stroke="#20BB96" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
     )
 }
