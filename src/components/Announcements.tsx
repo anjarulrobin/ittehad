@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { getNotificationsApi } from "../apis/getNotifications";
-import { NotificationResponse } from "../types/notifications";
+import { getAnnouncementsApi } from "../apis/getAnnouncements";
+import { AnnouncementResponse } from "../types/announcements";
 
 const monthList = [
     'জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল',
@@ -9,7 +9,7 @@ const monthList = [
     'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
 ]
 
-const notificationList = [
+const announcementList = [
     {
         id: '1',
         title: 'বিশ্বকাপ ফুটবল কাতার কি ইসলাম প্রচার করছে?',
@@ -32,17 +32,17 @@ function getBanglaTime(date: Date) {
     return `${dd} ${monthList[month]}, ${yyyy}`;
 }
 
-export default function Notifications() {
-    const [notifications, setNotifications] = useState(notificationList);
+export default function Announcements() {
+    const [announcement, setNotifications] = useState(announcementList);
 
     // useEffect(() => {
-    //     getNotificationsApi({ limit: 15, skip: 0 })
-    //         .then((notifications) => {
-    //             if (notifications.code === 200) {
-    //                 for (const notification of notifications.data) {
-    //                     notification.id = notification._id;
+    //     getAnnouncementsApi({ limit: 15, skip: 0 })
+    //         .then((announcement) => {
+    //             if (announcement.code === 200) {
+    //                 for (const announcement of announcement.data) {
+    //                     announcement.id = announcement._id;
     //                 }
-    //                 setNotifications(notifications.data);
+    //                 setNotifications(announcement.data);
     //             }
     //             else {
     //                 setNotifications([]);
@@ -55,16 +55,16 @@ export default function Notifications() {
     return (
         <div>
             {
-                notifications.map((notification) => (
-                    <div key={notification.id} className="m-4">
-                        <p className="text-lg"> {getBanglaTime(notification.createdAt)}</p>
-                        <p className="text-xl"> {notification.title} </p>
+                announcement.map((announcement) => (
+                    <div key={announcement.id} className="m-4">
+                        <p className="text-lg"> {getBanglaTime(announcement.createdAt)}</p>
+                        <p className="text-xl"> {announcement.title} </p>
                         <p className="mt-2 h-14 text-ellipsis overflow-hidden">
-                            {notification.content}
+                            {announcement.content}
                         </p>
 
                         <div className="flex justify-end">
-                            <Link to="/notifications/1" >
+                            <Link to="/announcement/1" >
                                 <p className="w-fit text-sm text-[#20BB96]">
                                     আরো দেখুন
                                 </p>

@@ -1,12 +1,12 @@
-import { NotificationListRequestParams, NotificationListResponse } from "../types/notifications";
+import { AnnouncementListRequestParams, AnnouncementListResponse } from "../types/announcements";
 import { fetcher } from "../utils/fetcher";
 
-export async function getNotificationsApi(params: NotificationListRequestParams) {
+export async function getAnnouncementsApi(params: AnnouncementListRequestParams) {
     const authData = JSON.parse(localStorage.getItem('auth') || '');
     const token = authData?.token;
-    const url = `${process.env.REACT_APP_API_ORIGIN}//notifications/?skip=${params.skip}&limit=${params.limit}`;
+    const url = `${process.env.REACT_APP_API_ORIGIN}/announcement/?skip=${params.skip}&limit=${params.limit}`;
 
-    // const notifications: NotificationListResponse = await fetcher(url,
+    // const announcement: AnnouncementListResponse = await fetcher(url,
     //     {
     //         method: 'GET',
     //         headers: {
@@ -15,7 +15,7 @@ export async function getNotificationsApi(params: NotificationListRequestParams)
     //         }
     //     })
 
-    // return notifications;
+    // return announcement;
     return ({
         "code": 200,
         "message": "SUCCESS",

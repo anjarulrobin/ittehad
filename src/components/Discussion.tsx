@@ -22,8 +22,9 @@ interface GroupInfo {
 export default function Discussion() {
     const { groupId } = useParams();
     const [messages, setMessages] = useState<Message[]>([]);
-    const [message, setMessage] = useState<string>('');
+    const [message, setMessage] = useState<string>(' বিশ্বকাপ ফুটবলের আসর সম্পর্কে সবাই জানেন। এইসব আসরের নানা প্রসঙ্গ-অনুষঙ্গ সম্পর্কে সচেতন মানুষের সংখ্যাও একেবারে কম নয়। যেখানে এইসব আসরের আয়োজন হয়ে থাকে তার আশেপাশে নানা ধরনের অনাচারের দৃশ্য-অদৃশ্য যে স্রোত প্রবাহিত হয় সে সম্পর্কেও অভিজ্ঞ মহল ওয়াকিফহাল। কাজেই এই আয়োজন কোনো মুসলিম সংখ্যাগরিষ্ঠ দেশে অনুষ্ঠিত হওয়ার মধ্যে মুসলমানদের উল্লসিত হওয়ার কিছু নেই। এখানে ইতিবাচক কোনো কিছু খুঁজে বের করে আত্মতৃপ্তিতে ভোগাটা বাস্তবে হীনম্মন্যতারই আরেক রূপ। বরং তা কোনো কোনো দিক থেকে আরো ভয়াবহ।');
     const [group, setGroup] = useState<GroupInfo>();
+    const [isCopied, setIsCopied] = useState(false);
 
     useEffect(() => {
         getMessagesApi({ limit: 15, skip: 0, groupId: groupId || '' })
@@ -74,11 +75,28 @@ export default function Discussion() {
                     </div>
                 </div>
                 <p className="text-sm font-serif mt-4">
-                    বিশ্বকাপ ফুটবলের আসর সম্পর্কে সবাই জানেন। এইসব আসরের নানা প্রসঙ্গ-অনুষঙ্গ সম্পর্কে সচেতন মানুষের সংখ্যাও একেবারে কম নয়। যেখানে এইসব আসরের আয়োজন হয়ে থাকে তার আশেপাশে নানা ধরনের অনাচারের দৃশ্য-অদৃশ্য যে স্রোত প্রবাহিত হয় সে সম্পর্কেও অভিজ্ঞ মহল ওয়াকিফহাল। কাজেই এই আয়োজন কোনো মুসলিম সংখ্যাগরিষ্ঠ দেশে অনুষ্ঠিত হওয়ার মধ্যে মুসলমানদের উল্লসিত হওয়ার কিছু নেই। এখানে ইতিবাচক কোনো কিছু খুঁজে বের করে আত্মতৃপ্তিতে ভোগাটা বাস্তবে হীনম্মন্যতারই আরেক রূপ। বরং তা কোনো কোনো দিক থেকে আরো ভয়াবহ।
+                    {message}
                 </p>
-                <p className="flex justify-end text-sm">
-                    ১২ মন্তব্য
-                </p>
+
+                <div className="flex justify-end text-sm">
+                    {isCopied && (<p className="m-2">Text Copied!</p>)}
+
+                    <button
+                        onClick={() => {
+                            navigator.clipboard.writeText(message);
+                            setIsCopied(true);
+                            setTimeout(() => {
+                                setIsCopied(false);
+                            }, 1000);
+                        }}
+                        className="m-2 text-[#20BB96] flex"
+                    >
+                        <p> Copy </p>
+                    </button>
+                    <p className="m-2">
+                        ১২ মন্তব্য
+                    </p>
+                </div>
             </div>
 
             <div className="flex justify-end border rounded-b-lg p-2">

@@ -14,12 +14,12 @@ const Login = lazy(() => import("./components/Login"));
 const Home = lazy(() => import("./components/Home"));
 const Teachers = lazy(() => import("./components/Teachers"));
 const Representetives = lazy(() => import("./components/Representetives"));
-const Notifications = lazy(() => import("./components/Notifications"));
+const Announcements = lazy(() => import("./components/Announcements"));
 const User = lazy(() => import("./components/User"));
 const Profile = lazy(() => import("./components/Profile"));
 const Committee = lazy(() => import("./components/Committee"));
 const Contact = lazy(() => import("./components/Contact"));
-const NotificationDetails = lazy(() => import("./components/NotificationDetails"));
+const NotificationDetails = lazy(() => import("./components/AnnouncementDetails"));
 
 // const Registration = lazy(() => import("./components/Registration"));
 
@@ -57,8 +57,8 @@ function App() {
                 <Route path='/login' element={<Login />} />
                 {/* <Route path='/registration' element={<Registration />} /> */}
                 <Route element={<PrivateRoute />}>
-                  <Route path='/notifications' element={<Notifications />} />
-                  <Route path='/notifications/:id' element={<NotificationDetails />} />
+                  <Route path='/announcement' element={<Announcements />} />
+                  <Route path='/announcement/:id' element={<NotificationDetails />} />
                   <Route path='/discussion/' element={<Discussion />} />
                   <Route path='/teachers' element={<Teachers />} />
                   <Route path='/representatives' element={<Representetives />} />
