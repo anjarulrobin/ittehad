@@ -19,7 +19,8 @@ const User = lazy(() => import("./components/User"));
 const Profile = lazy(() => import("./components/Profile"));
 const Committee = lazy(() => import("./components/Committee"));
 const Contact = lazy(() => import("./components/Contact"));
-const NotificationDetails = lazy(() => import("./components/AnnouncementDetails"));
+const AnnouncementDetails = lazy(() => import("./components/AnnouncementDetails"));
+const CreateMessage = lazy(() => import("./components/CreateMessage"));
 
 // const Registration = lazy(() => import("./components/Registration"));
 
@@ -58,7 +59,8 @@ function App() {
                 {/* <Route path='/registration' element={<Registration />} /> */}
                 <Route element={<PrivateRoute />}>
                   <Route path='/announcement' element={<Announcements />} />
-                  <Route path='/announcement/:id' element={<NotificationDetails />} />
+                  <Route path='/announcement/:id' element={<AnnouncementDetails />} />
+                  <Route path='/discussion/create' element={<CreateMessage />} />
                   <Route path='/discussion/' element={<Discussion />} />
                   <Route path='/teachers' element={<Teachers />} />
                   <Route path='/representatives' element={<Representetives />} />
