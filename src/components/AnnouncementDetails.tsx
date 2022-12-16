@@ -1,8 +1,4 @@
-const monthList = [
-    'জানুয়ারী', 'ফেব্রুয়ারী', 'মার্চ', 'এপ্রিল',
-    'মে', 'জুন', 'জুলাই', 'আগস্ট',
-    'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'
-]
+import { getBanglaDate } from "./utils/getBanglaDate"
 
 const notification = {
     id: '1',
@@ -11,22 +7,13 @@ const notification = {
     createdAt: new Date('12/26/2022')
 }
 
-
-function getBanglaTime(date: Date) {
-
-    const month = date.getMonth();
-    const [yyyy, mm, ddWithTime] = date.toISOString().split('-');
-    const [dd] = ddWithTime.split('T');
-    return `${dd} ${monthList[month]}, ${yyyy}`;
-}
-
 export default function NotificationDetails() {
 
     return (
         <div>
             <div className="m-4">
 
-                <p className="text-lg"> {getBanglaTime(notification.createdAt)}</p>
+                <p className="text-lg"> {getBanglaDate(notification.createdAt)}</p>
                 <p className="mt-1 mb-1 text-xl">{notification.title} </p>
                 <p className="mt-2">
                     {notification.content}

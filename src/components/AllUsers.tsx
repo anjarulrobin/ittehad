@@ -1,13 +1,21 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { getUsersApi } from "../apis/getUsers";
-import { User } from "../types/user";
+import { User, UserListRequestParams } from "../types/user";
+import { Loader } from "./Loader";
 
 export default function AllUsers() {
     const [users, setUsers] = useState<User[]>([]);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const LIMIT = 10;
+    const [skip, setSkip] = useState(0);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        getUsersApi({ limit: 10, skip: 0, passingYear: 2020 })
+        setLoading(true);
+        const passingYear = Number(searchParams.get('passingYear'));
+        console.log({ passingYear });
+        getUsersApi({ passingYear, skip: skip, limit: LIMIT })
             .then((users) => {
                 if (users.code === 200) {
                     for (const user of users.data) {
@@ -19,8 +27,9 @@ export default function AllUsers() {
                     setUsers([]);
                 }
             })
-            .catch((err) => console.error(err));
-    }, []);
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false));
+    }, [skip]);
 
 
     let currRefId = 0;
@@ -37,14 +46,18 @@ export default function AllUsers() {
                     </Link>
                 ))
             }
-            <div className="bg-[#20BB96] rounded-lg w-full p-3 text-center"            >
-                <button
-                    onClick={() => {
-                        // setUsers([...users, { id: String(users.length + 1), name: 'New member' }]);
-                    }}
-                > Show More
-                </button>
-            </div>
+            {
+                loading === true ?
+                    <Loader /> :
+                    (<div className="bg-[#20BB96] rounded-lg w-full p-3 text-center"            >
+                        <button
+                            onClick={() => {
+                                setSkip(skip + LIMIT)
+                            }}
+                        > Show More
+                        </button>
+                    </div>)
+            }
 
         </div>
     )

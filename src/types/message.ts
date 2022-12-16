@@ -3,7 +3,10 @@ import { CommonResponse } from "./common";
 export interface MessageListRequestParams {
     skip: number;
     limit: number;
-    groupId: string;
+}
+
+export interface MessageBody {
+    text: string;
 }
 
 export interface MessageResponse {
@@ -13,7 +16,11 @@ export interface MessageResponse {
     sender: {
         id: string;
         name: string;
+        passingYear: number;
+        userType: string;//'teacher' | 'student'
     },
+    createdAt: string;
+    totalComment: number;
     // replyOf: Types.ObjectId
 }
 
@@ -27,3 +34,4 @@ interface MessageListFailedResponse extends CommonResponse {
 }
 
 export type MessageListResponse = MessageListFailedResponse | MessageListSuccessResponse;
+export type MessageSendResponse = CommonResponse;

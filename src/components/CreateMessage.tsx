@@ -1,15 +1,28 @@
 import { FormEvent, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import { sendMessageApi } from "../apis/sendMessage";
+import { Loader } from "./Loader";
 
 export default function CreateMessage() {
-    const [message, setMessage] = useState<string>();
+    const [message, setMessage] = useState<string>('');
     const navigate = useNavigate();
-    // const [authError, setAuthError] = useState<{ flag: boolean, details: string[] }>({ flag: false, details: [] });
+    const [authError, setAuthError] = useState<{ flag: boolean, details: string[] }>({ flag: false, details: [] });
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (ev: FormEvent<HTMLFormElement>) => {
         ev.preventDefault();
-
-        navigate('/discussion', { replace: true });
+        setLoading(true);
+        sendMessageApi({ text: message })
+            .then((data) => {
+                if (data.code === 200) {
+                    navigate('/discussion', { replace: true });
+                }
+                else {
+                    setAuthError({ flag: true, details: [data.error || data.message || 'Failed to send message!'] });
+                }
+            })
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false))
     }
 
     return (
@@ -19,7 +32,6 @@ export default function CreateMessage() {
                 <form className="" action="#" onSubmit={handleSubmit}>
                     <div className="m-2">
                         <textarea
-                            // type="text"
                             name="message"
                             onChange={(ev) => setMessage(ev.target.value)}
                             className="w-full border  border-[#20BB96] p-1 rounded-lg"
@@ -27,11 +39,19 @@ export default function CreateMessage() {
                             required={true} />
                     </div>
                     {
-                        // authError.flag ? (<div className="text-red-400"> {authError.details} </div>) : (<div></div>)
+                        authError.flag && (
+                            <div
+                                className="text-red-400 text-xs text-center"> {authError.details}
+                            </div>
+                        )
                     }
-                    <div className="bg-[#20BB96] m-2 mt-4 p-1.5 text-center rounded-lg">
-                        <button type="submit">Send</button>
-                    </div>
+                    {loading === true ? <Loader /> :
+                        (<div className="m-2 mt-4 bg-[#20BB96] rounded-lg"                    >
+                            <button type="submit" className="p-1.5 text-center w-full"                        >
+                                Send
+                            </button>
+                        </div>)
+                    }
                 </form>
             </div>
         </div>

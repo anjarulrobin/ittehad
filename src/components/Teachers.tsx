@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { getUsersApi } from "../apis/getUsers";
 import { User } from "../types/user";
+import { Loader } from "./Loader";
 import CallAndSms from "./utils/CallAndSms";
 
 export default function Teachers() {
     const [users, setUsers] = useState<User[]>([]);
     const [selectedUser, selectUser] = useState<string>('');
-
+    const [skip, setSkip] = useState<number>(0);
+    const [loading, setLoading] = useState(false);
+    const LIMIT = 10;
     useEffect(() => {
-        getUsersApi({ limit: 15, skip: 0, passingYear: 2020, userType: 'teacher' })
+        setLoading(true);
+        getUsersApi({ limit: LIMIT, skip, userType: 'teacher' })
             .then((users) => {
                 if (users.code === 200) {
                     for (const user of users.data) {
@@ -20,8 +24,9 @@ export default function Teachers() {
                     setUsers([]);
                 }
             })
-            .catch((err) => console.error(err));
-    }, []);
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false));
+    }, [skip]);
 
     return (
         <div className="overflow-scroll p-4">
@@ -45,14 +50,19 @@ export default function Teachers() {
 
                 ))
             }
-            <div className="bg-[#20BB96] rounded-lg w-full p-3 text-center"            >
-                <button
-                    onClick={() => {
-                        // setUsers([...users, { id: String(users.length + 1), name: 'New member' }]);
-                    }}
-                > Show More
-                </button>
-            </div>
+            {
+                loading === true ?
+                    <Loader /> :
+                    (
+                        <div className="bg-[#20BB96] rounded-lg w-full p-3 text-center"            >
+                            <button
+                                onClick={() => {
+                                    setSkip(skip + LIMIT);
+                                }}
+                            > Show More
+                            </button>
+                        </div>
+                    )}
         </div>
     )
 }

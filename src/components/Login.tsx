@@ -3,21 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { LoginAPI } from "../apis/login";
 import { LoginCredentials, LoginResponse } from "../types/auth";
 import { tryCatch } from "../utils/trycatch";
+import { Loader } from "./Loader";
 
 export default function Login() {
     const [auth, setAuth] = useState<LoginCredentials>();
     const navigate = useNavigate();
     const [authError, setAuthError] = useState<{ flag: boolean, details: string[] }>({ flag: false, details: [] });
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (ev: FormEvent<HTMLFormElement>) => {
         ev.preventDefault();
-
+        setLoading(true);
         const data = await tryCatch(LoginAPI, auth) as LoginResponse;
+
         if (data.code === 200) {
             localStorage.setItem('auth', JSON.stringify({ token: data.data.token }));
             navigate('/general', { replace: true });
         }
         else {
+            setLoading(false);
             setAuthError({ flag: true, details: [data.error || data.message] });
         }
     }
@@ -48,11 +52,20 @@ export default function Login() {
                             required={true} />
                     </div>
                     {
-                        authError.flag ? (<div className="text-red-400"> {authError.details} </div>) : (<div></div>)
+                        authError.flag && (
+                            <div
+                                className="text-red-400 text-xs text-center"> {authError.details}
+                            </div>
+                        )
                     }
-                    <div className="bg-[#20BB96] m-2 mt-4 p-1.5 text-center rounded-lg">
-                        <button type="submit">লগ ইন</button>
-                    </div>
+                    {loading === true ? <Loader /> :
+                        (<div className="m-2 mt-4 bg-[#20BB96] rounded-lg"                    >
+                            <button type="submit" className="p-1.5 text-center w-full"                        >
+                                লগ ইন
+                            </button>
+                        </div>)
+                    }
+
                     <div className="flex justify-end">
                         <a href="#" className="text-xs font-medium border-b-[1px] border-[#20BB96]">পাসওয়ার্ড ভুলে গেছেন?</a>
                     </div>

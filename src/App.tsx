@@ -21,6 +21,7 @@ const Committee = lazy(() => import("./components/Committee"));
 const Contact = lazy(() => import("./components/Contact"));
 const AnnouncementDetails = lazy(() => import("./components/AnnouncementDetails"));
 const CreateMessage = lazy(() => import("./components/CreateMessage"));
+const AllUsers = lazy(() => import("./components/AllUsers"));
 
 // const Registration = lazy(() => import("./components/Registration"));
 
@@ -66,6 +67,7 @@ function App() {
                   <Route path='/representatives' element={<Representetives />} />
                   <Route path='/teachers-and-students' element={<UserFilter />} />
                   <Route path='/users/:userId' element={<User />} />
+                  <Route path='/users/all' element={<AllUsers />} />
                   <Route path='/profile' element={<Profile />} />
                   <Route path='/committee' element={<Committee />} />
                   <Route path='/contact' element={<Contact />} />

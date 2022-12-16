@@ -24,20 +24,20 @@ export async function getUsersApi(params: UserListRequestParams): Promise<UserLi
         url += `&userTags=${params.userTags}`;
     }
 
-    // const users: UserListResponse = await fetcher(url,
-    //     {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-type': 'application/json',
-    //             'Authorization': `Bearer ${token}`
-    //         }
-    //     })
+    const users: UserListResponse = await fetcher(url,
+        {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
 
-    // return users;
-    return ({
-        "code": 200,
-        "message": "SUCCESS",
-        // @ts-ignore
-        "data": UserData
-    })
+    return users;
+    // return ({
+    //     "code": 200,
+    //     "message": "SUCCESS",
+    //     // @ts-ignore
+    //     "data": UserData
+    // })
 }

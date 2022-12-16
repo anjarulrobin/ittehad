@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUserApi } from "../apis/getUser";
-import { User as UserType, UserAddress, PersonalInfo, OtherInfo } from "../types/user";
+import { User as UserType, UserAddress, PersonalInfo, OtherInfo, User } from "../types/user";
 
 function UpperIcon() {
     return (
@@ -29,17 +29,22 @@ function EditIcon() {
 
 function CancelIcon() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#20BB96" className="w-6 h-6">
-            <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" />
-        </svg>
+        <div className="bg-[#E1FFF8]">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="red" className="w-6 h-6">
+                <path fillRule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clipRule="evenodd" />
+            </svg>
+        </div>
     )
 }
 
 function SaveIcon() {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#20BB96" className="w-5 h-5">
-            <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
-        </svg>
+        <div className="bg-[#E1FFF8]">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 22" fill="#20BB96" className="w-6 h-6">
+                <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+            </svg>
+        </div>
     )
 }
 
@@ -50,7 +55,17 @@ enum ViewOrEdit {
 }
 
 export default function Profile() {
-    const [user, setUser] = useState<UserType | null>();
+    const [user, setUser] = useState<UserType | null>({
+        id: '1',
+        currentAddress: { district: { id: '1', name: 'a', bn_name: 'b' }, post: 'p', village: 'v', upzilla: { id: '1', name: 'up', bn_name: 'up' } },
+        permanentAddress: { district: { id: '1', name: 'a', bn_name: 'b' }, post: 'p', village: 'v', upzilla: { id: '1', name: 'up', bn_name: 'up' } },
+        fathersName: 'a',
+        name: 'ab',
+        passingYear: 2,
+        phone: '1234',
+        _id: '1',
+        userType: 'student'
+    });
     const [personalInfoSelection, setPersonalInfoSelection] = useState<[Partial<PersonalInfo>, ViewOrEdit]>([
         {
             bloodGroup: 'A+',
@@ -60,7 +75,8 @@ export default function Profile() {
     ]);
     const [currentAddressSelection, setCurrentAddressSelection] = useState<[Partial<UserAddress>, ViewOrEdit]>([user?.currentAddress || {}, ViewOrEdit.none]);
     const [permanentAddressSelection, setPermanentAddressSelection] = useState<[Partial<UserAddress>, ViewOrEdit]>([{}, ViewOrEdit.none]);
-    const [othersSelection, setOthersSelection] = useState<[Partial<OtherInfo>, ViewOrEdit]>([{}, ViewOrEdit.none]);
+    const [parentOtherInfo, setParentOtherInfo] = useState<OtherInfo>({ fathersName: user?.fathersName || 'abc' });
+    const [userClicked, setUserClicked] = useState<'PERSONAL_INFO' | 'CURRENT_ADDR' | 'PERMANENT_ADDR' | 'OTHERS' | ''>('');
 
     const nav = useNavigate();
     useEffect(() => {
@@ -79,7 +95,7 @@ export default function Profile() {
 
     return (
         <div className="m-3 rounded-b-lg">
-
+            {user?.fathersName}
             <div className="flex justify-center">
                 <div className="relative" >
                     <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,64 +122,206 @@ export default function Profile() {
                 </div>
             </div>
 
-            {/* Contact */}
-            <button
-                className="w-full mt-4 mb-4 flex justify-between"
-                onClick={() => setPersonalInfoSelection([personalInfoSelection[0], personalInfoSelection[1] === ViewOrEdit.none ? ViewOrEdit.view : ViewOrEdit.none])}
+            <button className="w-full mt-4 mb-4 flex justify-between"
+                onClick={() => setUserClicked(userClicked === 'PERSONAL_INFO' ? '' : 'PERSONAL_INFO')}
             >
-                <p className="font-medium" style={{ fontFamily: 'Hind Siliguri' }}>ব্যক্তিগত তথ্য</p>
+                <p className="font-medium">ব্যক্তিগত তথ্য</p>
                 <div className="pt-3">
-                    {personalInfoSelection[1] === ViewOrEdit.view ? <UpperIcon /> : <LowerIcon />}
+                    {userClicked === 'PERSONAL_INFO' ? <UpperIcon /> : <LowerIcon />}
                 </div>
             </button>
             {
-                personalInfoSelection[1] === ViewOrEdit.view &&
-                (<div className="mx-2 mt-2 text-sm">
-                    <p className="mt-1 p-1"> মোবাইল: {user?.phone}</p>
-                    <p className="mt-1 p-1 text-sm"> রক্তের গ্রুপ: এ+ </p>
-                </div>)
+                userClicked === 'PERSONAL_INFO' && <PersonalInfoComponent bloodGroup="এ+" phone={user?.phone || ''} />
             }
+
 
             {/* current address */}
             <button
                 className="w-full mt-4 mb-4 flex justify-between"
-                onClick={() => setCurrentAddressSelection([currentAddressSelection[0], currentAddressSelection[1] === ViewOrEdit.none ? ViewOrEdit.view : ViewOrEdit.none])}
+                onClick={() => setUserClicked(userClicked === 'CURRENT_ADDR' ? '' : 'CURRENT_ADDR')}
 
             >
-                <p className="font-medium" style={{ fontFamily: 'Hind Siliguri' }}>বর্তমান ঠিকানা</p>
+                <p className="font-medium">বর্তমান ঠিকানা</p>
                 <div className="pt-3">
-                    {currentAddressSelection[1] === ViewOrEdit.view ? <UpperIcon /> : <LowerIcon />}
+                    {userClicked === 'CURRENT_ADDR' ? <UpperIcon /> : <LowerIcon />}
                 </div>
             </button>
             {
-                currentAddressSelection[1] === ViewOrEdit.view ?
+                userClicked === 'CURRENT_ADDR' && (
+                    <AddressComponent
+                        district={user?.currentAddress.district || { id: '', name: '' }}
+                        upzilla={user?.currentAddress.upzilla || { id: '', name: '' }}
+                        post={user?.currentAddress.post || ''}
+                        village={user?.currentAddress.village || ''}
+                    />)
+            }
+
+            {/* Permanent address */}
+            <button
+                className="w-full mt-4 mb-4 flex justify-between"
+                onClick={() => setUserClicked(userClicked === 'PERMANENT_ADDR' ? '' : 'PERMANENT_ADDR')}
+
+            >
+                <p className="font-medium">স্থায়ী ঠিকানা</p>
+                <div className="pt-3">
+                    {userClicked === 'PERMANENT_ADDR' ? <UpperIcon /> : <LowerIcon />}
+                </div>
+            </button>
+            {
+                userClicked === 'PERMANENT_ADDR' && (
+                    <AddressComponent
+                        district={user?.permanentAddress.district || { id: '', name: '' }}
+                        upzilla={user?.permanentAddress.upzilla || { id: '', name: '' }}
+                        post={user?.permanentAddress.post || ''}
+                        village={user?.permanentAddress.village || ''}
+                    />)
+            }
+
+            {/* Others */}
+            <button
+                className="w-full mt-4 mb-4 flex justify-between"
+                onClick={() => setUserClicked('OTHERS')}
+            >
+                <p className="font-medium" >অন্যান্য</p>
+                <div className="pt-3">
+                    {userClicked === 'OTHERS' ? <UpperIcon /> : <LowerIcon />}
+                </div>
+            </button>
+            {
+                userClicked === 'OTHERS' && (
+                    <OtherInfoComponent key={user?.id} fathersName={parentOtherInfo?.fathersName || user?.fathersName || ''} setParentOtherInfo={setParentOtherInfo} />
+                )
+            }
+            <button
+                className="mt-2"
+                onClick={() => {
+                    localStorage.clear();
+                    nav("/login");
+                }}
+            >
+                <div className="flex justify-start">
+                    <svg className="mt-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.8 2H14.2C11 2 9 4 9 7.2V11.25H15.25C15.66 11.25 16 11.59 16 12C16 12.41 15.66 12.75 15.25 12.75H9V16.8C9 20 11 22 14.2 22H16.79C19.99 22 21.99 20 21.99 16.8V7.2C22 4 20 2 16.8 2Z" fill="#20BB96" />
+                        <path d="M4.56 11.2498L6.63 9.17984C6.78 9.02984 6.85 8.83984 6.85 8.64984C6.85 8.45984 6.78 8.25984 6.63 8.11984C6.34 7.82984 5.86 7.82984 5.57 8.11984L2.22 11.4698C1.93 11.7598 1.93 12.2398 2.22 12.5298L5.57 15.8798C5.86 16.1698 6.34 16.1698 6.63 15.8798C6.92 15.5898 6.92 15.1098 6.63 14.8198L4.56 12.7498H9V11.2498H4.56Z" fill="#20BB96" />
+                    </svg>
+                    <p className="m-2"> লগ আউট</p>
+                </div>
+            </button>
+
+        </div >
+    )
+}
+
+function PersonalInfoComponent(props: PersonalInfo) {
+    const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(props);
+    const [mode, setMode] = useState<ViewOrEdit>(ViewOrEdit.view);
+
+    return (
+        <div>
+            {
+                mode === ViewOrEdit.view ?
+                    (
+                        <div className="mx-2 mt-2 text-sm flex items-start justify-between">
+                            <div >
+                                <p className="mt-1 p-1"> মোবাইল: {props?.phone}</p>
+                                <p className="mt-1 p-1 text-sm"> রক্তের গ্রুপ: এ+ </p>
+                            </div>
+                            <button
+                                className="mx-2"
+                                onClick={() => setMode(ViewOrEdit.edit)}
+                            >
+                                <EditIcon />
+                            </button>
+                        </div>) :
+                    mode === ViewOrEdit.edit && (
+                        (<div className="mx-2 mt-2 text-sm">
+                            <div className="flex justify-end">
+                                <div className="w-14 justify-between flex m-1">
+                                    <button
+                                        className="mx-2"
+                                        onClick={() => setMode(ViewOrEdit.view)}
+                                    >
+                                        <CancelIcon />
+                                    </button>
+                                    <button
+                                        className="mx-2"
+                                        onClick={() => setMode(ViewOrEdit.view)}
+                                    >
+                                        <SaveIcon />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <form
+                                action="#"
+                                onSubmit={() => alert('Submitted')}
+                            >
+                                <div className="m-2 flex">
+                                    <label className="w-fit m-1 p-1.5">
+                                        রক্তের গ্রুপ:
+                                    </label>
+                                    <select name="রক্তের গ্রুপ"
+                                        className="border border-[#20BB96] w-fit rounded-lg m-1 p-1.5 "
+                                    >
+                                        {
+                                            ['A+', 'B+', 'O+', 'A-', 'B-', 'O-', 'AB+', 'AB-']
+                                                .map((bGroup) => (
+                                                    <option
+                                                        selected={props.bloodGroup === bGroup}
+                                                        value={bGroup}
+                                                        key={bGroup}
+                                                    >
+                                                        {bGroup}
+                                                    </option>
+                                                ))
+                                        }
+
+                                    </select>
+                                </div>
+                            </form>
+                        </div>)
+                    )
+            }
+
+        </div>
+    )
+}
+
+function AddressComponent(props: UserAddress) {
+    const [addrInfo, setAddrInfo] = useState<UserAddress>(props);
+    const [mode, setMode] = useState<ViewOrEdit>(ViewOrEdit.view);
+
+    return (
+        <div>
+            {
+                mode === ViewOrEdit.view ?
                     (<div className="mx-2 mt-2 text-sm flex items-start justify-between">
                         <div>
-                            <p> গ্রাম: {user?.currentAddress.village} </p>
-                            <p> পোস্ট: {user?.currentAddress.post} </p>
-                            <p> উপজেলা: {user?.currentAddress.upzilla.bn_name} </p>
-                            <p> জেলা: {user?.currentAddress.district.bn_name}</p>
+                            <p> গ্রাম: {props.village} </p>
+                            <p> পোস্ট: {props.post} </p>
+                            <p> উপজেলা: {props.upzilla.bn_name} </p>
+                            <p> জেলা: {props.district.bn_name}</p>
                         </div>
                         <button
                             className="mx-2"
-                            onClick={() => setCurrentAddressSelection([currentAddressSelection[0], ViewOrEdit.edit])}
+                            onClick={() => setMode(ViewOrEdit.edit)}
                         >
                             <EditIcon />
                         </button>
                     </div>) :
-                    currentAddressSelection[1] === ViewOrEdit.edit &&
+                    mode === ViewOrEdit.edit &&
                     (<div className="mx-2 mt-2">
                         <div className="flex justify-end">
                             <div className="w-14 justify-between flex m-1">
                                 <button
                                     className="mx-2"
-                                    onClick={() => setCurrentAddressSelection([currentAddressSelection[0], ViewOrEdit.view])}
+                                    onClick={() => setMode(ViewOrEdit.view)}
                                 >
                                     <CancelIcon />
                                 </button>
                                 <button
                                     className="mx-2"
-                                    onClick={() => setCurrentAddressSelection([currentAddressSelection[0], ViewOrEdit.view])}
+                                    onClick={() => setMode(ViewOrEdit.view)}
                                 >
                                     <SaveIcon />
                                 </button>
@@ -178,7 +336,7 @@ export default function Profile() {
                                 <label className="w-16 m-1 p-1.5 text-start items-center">
                                     গ্রাম:
                                 </label>
-                                <input type={'text'} name="গ্রাম" value={user?.currentAddress.village}
+                                <input type={'text'} name="গ্রাম" value={props.village}
                                     className="border border-[#20BB96] rounded-lg m-2 p-1.5 text-center items-center"
                                 />
                             </div>
@@ -186,7 +344,7 @@ export default function Profile() {
                                 <label className="w-16 m-1 p-1.5 text-start items-center">
                                     পোস্ট:
                                 </label>
-                                <input type={'text'} name="পোস্ট" value={user?.currentAddress.post}
+                                <input type={'text'} name="পোস্ট" value={props.post}
                                     className="border border-[#20BB96] rounded-lg m-2 p-1.5 text-center items-center"
                                 />
                             </div>
@@ -197,7 +355,7 @@ export default function Profile() {
                                 <select name="উপজেলা"
                                     className="border border-[#20BB96] w-fit rounded-lg m-2 p-1.5 text-center items-center"
                                 >
-                                    <option selected={true} value={user?.currentAddress.upzilla.bn_name}>{user?.currentAddress.upzilla.bn_name}</option>
+                                    <option selected={true} value={props.upzilla.bn_name}>{props.upzilla.bn_name}</option>
                                     <option value="শরীয়তপুর">শরীয়তপুর</option>
                                     <option value="গাজীপুর">গাজীপুর</option>
                                     <option value="নরসিংদী">নরসিংদী</option>
@@ -223,59 +381,72 @@ export default function Profile() {
                         </form>
                     </div>)
             }
+        </div>
+    )
+}
 
-            {/* Permanent address */}
-            <button
-                className="w-full mt-4 mb-4 flex justify-between"
-                onClick={() => setPermanentAddressSelection([permanentAddressSelection[0], permanentAddressSelection[1] === ViewOrEdit.none ? ViewOrEdit.view : ViewOrEdit.none])}
-            >
-                <p className="font-medium" style={{ fontFamily: 'Hind Siliguri' }}>স্থায়ী ঠিকানা</p>
-                <div className="pt-3">
-                    {permanentAddressSelection[1] === ViewOrEdit.view ? <UpperIcon /> : <LowerIcon />}
-                </div>
-            </button>
+type OtherInfoProps = OtherInfo & { setParentOtherInfo: React.Dispatch<React.SetStateAction<OtherInfo>> }
+
+function OtherInfoComponent(props: OtherInfoProps) {
+    const [mode, setMode] = useState<ViewOrEdit>(ViewOrEdit.view);
+    const [otherInfo, setOtherInfo] = useState<OtherInfo>(props);
+
+    return (
+        <div>
             {
-                permanentAddressSelection[1] === ViewOrEdit.view &&
-                (<div className="mx-2 mt-2 text-sm">
-                    <p> গ্রাম: {user?.permanentAddress.village} </p>
-                    <p> পোস্ট: {user?.permanentAddress.post} </p>
-                    <p> উপজেলা: {user?.permanentAddress.upzilla.bn_name} </p>
-                    <p> জেলা: {user?.permanentAddress.district.bn_name}</p>
-                </div>)
-            }
+                mode === ViewOrEdit.view ?
+                    (<div className="mx-2 mt-2 text-sm flex justify-between">
+                        <p > পিতার নাম: {otherInfo.fathersName}</p>
+                        <button
+                            className="mx-2"
+                            onClick={() => setMode(ViewOrEdit.edit)}
+                        >
+                            <EditIcon />
+                        </button>
+                    </div>) :
+                    mode === ViewOrEdit.edit && (
+                        <div className="mx-2 mt-2 text-sm">
+                            <div className="flex justify-end">
+                                <div className="w-14 justify-between flex m-1">
+                                    <button
+                                        className="mx-2"
+                                        onClick={() => setMode(ViewOrEdit.view)}
+                                    >
+                                        <CancelIcon />
+                                    </button>
+                                    <button
+                                        className="mx-2"
+                                        onClick={() => setMode(ViewOrEdit.view)}
+                                    >
+                                        <SaveIcon />
+                                    </button>
+                                </div>
+                            </div>
 
-            {/* Others */}
-            <button
-                className="w-full mt-4 mb-4 flex justify-between"
-                onClick={() => setOthersSelection([othersSelection[0], othersSelection[1] === ViewOrEdit.none ? ViewOrEdit.view : ViewOrEdit.none])}
-            >
-                <p className="font-medium" style={{ fontFamily: 'Hind Siliguri' }}>অন্যান্য</p>
-                <div className="pt-3">
-                    {othersSelection[1] === ViewOrEdit.view ? <UpperIcon /> : <LowerIcon />}
-                </div>
-            </button>
-            {
-                othersSelection[1] === ViewOrEdit.view &&
-                (<div className="mx-2 mt-2 text-sm">
-                    <p > পিতার নাম: {user?.fathersName}</p>
-                </div>)
-            }
-            <button
-                className="mt-2"
-                onClick={() => {
-                    localStorage.clear();
-                    nav("/login");
-                }}
-            >
-                <div className="flex justify-start">
-                    <svg className="mt-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16.8 2H14.2C11 2 9 4 9 7.2V11.25H15.25C15.66 11.25 16 11.59 16 12C16 12.41 15.66 12.75 15.25 12.75H9V16.8C9 20 11 22 14.2 22H16.79C19.99 22 21.99 20 21.99 16.8V7.2C22 4 20 2 16.8 2Z" fill="#20BB96" />
-                        <path d="M4.56 11.2498L6.63 9.17984C6.78 9.02984 6.85 8.83984 6.85 8.64984C6.85 8.45984 6.78 8.25984 6.63 8.11984C6.34 7.82984 5.86 7.82984 5.57 8.11984L2.22 11.4698C1.93 11.7598 1.93 12.2398 2.22 12.5298L5.57 15.8798C5.86 16.1698 6.34 16.1698 6.63 15.8798C6.92 15.5898 6.92 15.1098 6.63 14.8198L4.56 12.7498H9V11.2498H4.56Z" fill="#20BB96" />
-                    </svg>
-                    <p className="m-2"> লগ আউট</p>
-                </div>
-            </button>
+                            <form
+                                action="#"
+                                onSubmit={(ev) => {
+                                    ev.preventDefault();
+                                    props.setParentOtherInfo(otherInfo)
+                                }}
+                            >
+                                <div className="m-2 flex">
+                                    <label className="w-fit m-1 p-1.5">
+                                        পিতার নাম:
+                                    </label>
+                                    <input
+                                        name="পিতার নাম"
+                                        className="border border-[#20BB96] w-fit rounded-lg m-1 p-1.5"
+                                        value={otherInfo.fathersName}
+                                        type={'text'}
 
-        </div >
+                                        onChange={(ev) => setOtherInfo({ fathersName: ev.target.value })}
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                    )
+            }
+        </div>
     )
 }

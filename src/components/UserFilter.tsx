@@ -1,23 +1,10 @@
 import { lazy, useState } from "react";
+import { Link } from "react-router-dom";
+import { getYearList } from "./utils/YearList";
+import { getYearRange } from "./utils/YearRange";
 const AllUsers = lazy(() => import("./AllUsers"));
 
-function getYearRange() {
-    const yearRange = []
-    for (let i = 1990; i < 2030; i += 5) {
-        yearRange.push({ start: i, end: i + 5 });
-    }
 
-    return yearRange;
-}
-
-function getYears(start: number, end: number) {
-    const years = []
-    for (let i = start; i <= end; i += 1) {
-        years.push(i);
-    }
-
-    return years;
-}
 
 interface YearSelection {
     startYear: number;
@@ -59,10 +46,10 @@ export default function UserFilter() {
                                 key={`${range.start}-${range.end}`}
                             >
                                 <button
-                                    value={`${range.start}-${range.end}`}
+                                    value={`${range.value}`}
                                     onClick={() => setYearSelection({ ...yearSelection, startYear: range.start, endYear: range.end, openYearRangeSelection: false, openYearSelection: true })}
                                 >
-                                    {`${range.start}-${range.end}`}
+                                    {`${range.value}`}
                                 </button>
                             </div>
                         ))}
@@ -72,25 +59,19 @@ export default function UserFilter() {
             {
                 yearSelection.openYearSelection && (
                     <div className="grid grid-cols-3 mt-2 gap-2">
-                        {getYears(yearSelection.startYear, yearSelection.endYear).map((year) => (
+                        {getYearList(yearSelection.startYear, yearSelection.endYear).map((year) => (
                             <div
                                 className="bg-[#20BB96] rounded-lg m-1 p-1 w-20 h-12 flex text-center justify-center"
                             >
-                                <button
-                                    value={`${year}`}
-                                    onClick={() => setYearSelection({ ...yearSelection, selectedYear: year, openYearSelection: false })}
+                                <Link to={`/users/all?passingYear=${year}`}
                                 >
-
                                     {`${year}`}
-                                </button>
+                                </Link>
                             </div>
                         ))}
                     </div>
                 )
             }
-            <div>
-                {yearSelection.selectedYear !== 0 && <AllUsers />}
-            </div>
         </div>
     )
 }
