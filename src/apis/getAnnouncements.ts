@@ -4,7 +4,7 @@ import { fetcher } from "../utils/fetcher";
 export async function getAnnouncementsApi(params: AnnouncementListRequestParams) {
     const authData = JSON.parse(localStorage.getItem('auth') || '');
     const token = authData?.token;
-    const url = `${process.env.REACT_APP_API_ORIGIN}/announcement/?skip=${params.skip}&limit=${params.limit}`;
+    const url = `https://wild-tan-meerkat-robe.cyclic.app/api/announcement/?skip=${params.skip}&limit=${params.limit}`;
 
     // const announcement: AnnouncementListResponse = await fetcher(url,
     //     {

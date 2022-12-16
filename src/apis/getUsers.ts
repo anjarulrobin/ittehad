@@ -6,7 +6,9 @@ export async function getUsersApi(params: UserListRequestParams): Promise<UserLi
     const authData = JSON.parse(localStorage.getItem('auth') || '');
     const token = authData?.token;
 
-    let url = `${process.env.REACT_APP_API_ORIGIN}/users/all?skip=${params.skip}&limit=${params.limit}`;
+    // let url = `${process.env.REACT_APP_API_ORIGIN}/users/all?skip=${params.skip}&limit=${params.limit}`;
+    let url = `https://wild-tan-meerkat-robe.cyclic.app/api/users/all?skip=${params.skip}&limit=${params.limit}`;
+
     if (params.passingYear) {
         url += `&passingYear=${params.passingYear}`;
     }

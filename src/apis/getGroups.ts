@@ -5,7 +5,8 @@ import { fetcher } from "../utils/fetcher";
 export async function getGroupsApi(params: GroupListRequestParams) {
     const authData = JSON.parse(localStorage.getItem('auth') || '');
     const token = authData?.token;
-    let url = `${process.env.REACT_APP_API_ORIGIN}/groups/${params}/view-message?skip=0&limit=10`;
+    let url = `https://wild-tan-meerkat-robe.cyclic.app/api/groups/${params}/view-message?skip=0&limit=10`;
+    // let url = `${process.env.REACT_APP_API_ORIGIN}/groups/${params}/view-message?skip=0&limit=10`;
     fetcher(`${url}`, {
         method: 'GET',
         headers: {
