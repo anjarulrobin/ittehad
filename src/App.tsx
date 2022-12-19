@@ -22,6 +22,7 @@ const Contact = lazy(() => import("./components/Contact"));
 const AnnouncementDetails = lazy(() => import("./components/AnnouncementDetails"));
 const CreateMessage = lazy(() => import("./components/CreateMessage"));
 const AllUsers = lazy(() => import("./components/AllUsers"));
+const Comments = lazy(() => import("./components/Comments"));
 
 // const Registration = lazy(() => import("./components/Registration"));
 
@@ -61,6 +62,7 @@ function App() {
                 <Route element={<PrivateRoute />}>
                   <Route path='/announcement' element={<Announcements />} />
                   <Route path='/announcement/:id' element={<AnnouncementDetails />} />
+                  <Route path='/discussion/:postId/comments' element={<Comments />} />
                   <Route path='/discussion/create' element={<CreateMessage />} />
                   <Route path='/discussion/' element={<Discussion />} />
                   <Route path='/teachers' element={<Teachers />} />

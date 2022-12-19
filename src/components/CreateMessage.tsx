@@ -26,7 +26,7 @@ export default function CreateMessage() {
     }
 
     return (
-        <div className="m-4">
+        <div className="m-2">
             <p className="mb-2 text-lg text-center font-bold"> My thoughts </p>
             <div className="flex justify-center">
                 <form className="" action="#" onSubmit={handleSubmit}>
@@ -34,7 +34,7 @@ export default function CreateMessage() {
                         <textarea
                             name="message"
                             onChange={(ev) => setMessage(ev.target.value)}
-                            className="w-full border  border-[#20BB96] p-1 rounded-lg"
+                            className="border border-[#20BB96] p-1 rounded-lg h-52"
                             placeholder="লিখব যা বলতে চাই..."
                             required={true} />
                     </div>
