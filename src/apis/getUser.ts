@@ -6,8 +6,8 @@ export async function getUserApi(userId: string): Promise<UserResponse> {
     const authData = JSON.parse(localStorage.getItem('auth') || '');
     const token = authData?.token;
 
-    let url = `https://wild-tan-meerkat-robe.cyclic.app/api/users/`;
-    // let url = `${process.env.REACT_APP_API_ORIGIN}/users/`;
+    // let url = `https://wild-tan-meerkat-robe.cyclic.app/api/users/`;
+    let url = `${process.env.REACT_APP_API_ORIGIN}/users/`;
 
     // const users: UserListResponse = await fetcher(url,
     //     {

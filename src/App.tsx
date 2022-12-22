@@ -23,6 +23,7 @@ const AnnouncementDetails = lazy(() => import("./components/AnnouncementDetails"
 const CreateMessage = lazy(() => import("./components/CreateMessage"));
 const AllUsers = lazy(() => import("./components/AllUsers"));
 const Comments = lazy(() => import("./components/Comments"));
+const CreateAnnouncement = lazy(() => import("./components/CreateAnnouncement"));
 
 // const Registration = lazy(() => import("./components/Registration"));
 
@@ -61,6 +62,7 @@ function App() {
                 {/* <Route path='/registration' element={<Registration />} /> */}
                 <Route element={<PrivateRoute />}>
                   <Route path='/announcement' element={<Announcements />} />
+                  <Route path='/announcement/create' element={<CreateAnnouncement />} />
                   <Route path='/announcement/:id' element={<AnnouncementDetails />} />
                   <Route path='/discussion/:postId/comments' element={<Comments />} />
                   <Route path='/discussion/create' element={<CreateMessage />} />
