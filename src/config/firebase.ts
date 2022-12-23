@@ -56,4 +56,11 @@ export function initFCM() {
         .finally(() => console.log('FCM registration completed'));
 
 }
+export const onMessageListener = () =>
+    new Promise((resolve) => {
+        onMessage(messaging, (payload) => {
+            resolve(payload);
+        });
+    });
+
 export default app;

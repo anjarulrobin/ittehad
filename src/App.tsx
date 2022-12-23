@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import { register } from "./serviceWorkerRegistration";
-import { initFCM } from './config/firebase';
+import { initFCM, onMessageListener } from './config/firebase';
 
 const UserFilter = lazy(() => import("./components/UserFilter"));
 const Discussion = lazy(() => import("./components/Discussion"));
@@ -31,6 +31,13 @@ const CreateAnnouncement = lazy(() => import("./components/CreateAnnouncement"))
 
 function App() {
   const [title, setTitle] = useState<string>('ইত্তেহাদ');
+
+  onMessageListener()
+    .then(payload => {
+      // setShow(true);
+      // setNotification({ title: payload.notification.title, body: payload.notification.body })
+      console.log(payload);
+    }).catch(err => console.log('failed: ', err));
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
