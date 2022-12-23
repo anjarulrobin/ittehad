@@ -24,7 +24,6 @@ type Config = {
 };
 
 export function register(config?: Config) {
-  console.log('Registering');
   if (
     process.env.NODE_ENV === 'production' &&
     'serviceWorker' in navigator) {

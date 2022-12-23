@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import { register } from "./serviceWorkerRegistration";
+import { initFCM } from './config/firebase';
+
 const UserFilter = lazy(() => import("./components/UserFilter"));
 const Discussion = lazy(() => import("./components/Discussion"));
 const Login = lazy(() => import("./components/Login"));
@@ -87,6 +89,7 @@ function App() {
   );
 }
 
-register({ onSuccess: (registration) => console.log('Service registered') });
+register();
+initFCM();
 
 export default App;
