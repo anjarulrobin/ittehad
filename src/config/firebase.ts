@@ -42,20 +42,18 @@ export function initFCM() {
         .then((currentToken) => {
             if (currentToken) {
                 // Send the token to your server and update the UI if necessary
-                // ...
                 console.log('Found token', currentToken);
 
             } else {
                 // Show permission request UI
                 console.log('No registration token available. Request permission to generate one.');
-                // ...
             }
         })
         .catch((err) => {
             console.log('An error occurred while retrieving token. ', err);
             // ...
         })
-        .finally(() => console.log('FCM registration completed..............................................'));
+        .finally(() => console.log('FCM registration completed'));
 
 }
 export default app;
