@@ -3,6 +3,7 @@ import { CommonResponse } from "./common";
 export interface AnnouncementListRequestParams {
     skip: number;
     limit: number;
+    type: 'GENERAL' | 'BLOOD_FINDING' | 'SERVINGS';
 }
 export interface AnnouncementBody {
     title: string;

@@ -8,7 +8,7 @@ export default function Announcements() {
     const [announcements, setAnnouncements] = useState<AnnouncementResponse[]>([]);
 
     useEffect(() => {
-        getAnnouncementsApi({ limit: 15, skip: 0 })
+        getAnnouncementsApi({ limit: 15, skip: 0, type: 'GENERAL' })
             .then((announcements) => {
                 if (announcements.code === 200) {
                     for (const announcement of announcements.data) {

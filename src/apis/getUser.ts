@@ -1,4 +1,4 @@
-import { UserListRequestParams, UserListResponse, UserResponse } from "../types/user";
+import { UserListRequestParams, UserResponse } from "../types/user";
 import { fetcher } from "../utils/fetcher";
 import { UserData } from "./user-data";
 
@@ -7,22 +7,22 @@ export async function getUserApi(userId: string): Promise<UserResponse> {
     const token = authData?.token;
 
     // let url = `https://wild-tan-meerkat-robe.cyclic.app/api/users/`;
-    let url = `${process.env.REACT_APP_API_ORIGIN}/users/`;
+    let url = `${process.env.REACT_APP_API_ORIGIN}/users/${userId}`;
 
-    // const users: UserListResponse = await fetcher(url,
-    //     {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-type': 'application/json',
-    //             'Authorization': `Bearer ${token}`
-    //         }
-    //     })
+    const users: UserResponse = await fetcher(url,
+        {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
 
-    // return users;
-    return ({
-        "code": 200,
-        "message": "SUCCESS",
-        // @ts-ignore
-        "data": UserData[userId],
-    })
+    return users;
+    // return ({
+    //     "code": 200,
+    //     "message": "SUCCESS",
+    //     // @ts-ignore
+    //     "data": UserData[userId],
+    // })
 }

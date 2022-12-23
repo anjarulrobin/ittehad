@@ -42,8 +42,9 @@ export interface User {
     passingYear: number;
     userType: "teacher" | "student";
     fathersName: string;
-    currentAddress: UserAddress,
-    permanentAddress: UserAddress
+    currentAddress: UserAddress;
+    permanentAddress: UserAddress;
+    bloodGroup: string;
 }
 
 interface UserListSuccessResponse extends CommonResponse {
@@ -98,7 +99,9 @@ export interface UserProfile {
             bn_name: string;
         }
         village: string
-    }
+    },
+    fathersName: string;
+    bloodGroup: string;
 }
 
 interface GetProfileSuccessResponse extends CommonResponse {

@@ -1,7 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUserApi } from "../apis/getUser";
-import { User as UserType, UserAddress, PersonalInfo, OtherInfo, User } from "../types/user";
+import { getProfileApi } from "../apis/getProfile";
+import { User as UserType, UserAddress, PersonalInfo, OtherInfo } from "../types/user";
 
 function UpperIcon() {
     return (
@@ -55,32 +55,13 @@ enum ViewOrEdit {
 }
 
 export default function Profile() {
-    const [user, setUser] = useState<UserType | null>({
-        id: '1',
-        currentAddress: { district: { id: '1', name: 'a', bn_name: 'b' }, post: 'p', village: 'v', upzilla: { id: '1', name: 'up', bn_name: 'up' } },
-        permanentAddress: { district: { id: '1', name: 'a', bn_name: 'b' }, post: 'p', village: 'v', upzilla: { id: '1', name: 'up', bn_name: 'up' } },
-        fathersName: 'a',
-        name: 'ab',
-        passingYear: 2,
-        phone: '1234',
-        _id: '1',
-        userType: 'student'
-    });
-    const [personalInfoSelection, setPersonalInfoSelection] = useState<[Partial<PersonalInfo>, ViewOrEdit]>([
-        {
-            bloodGroup: 'A+',
-            phone: user?.phone
-        },
-        ViewOrEdit.none
-    ]);
-    const [currentAddressSelection, setCurrentAddressSelection] = useState<[Partial<UserAddress>, ViewOrEdit]>([user?.currentAddress || {}, ViewOrEdit.none]);
-    const [permanentAddressSelection, setPermanentAddressSelection] = useState<[Partial<UserAddress>, ViewOrEdit]>([{}, ViewOrEdit.none]);
+    const [user, setUser] = useState<UserType | null>();
     const [parentOtherInfo, setParentOtherInfo] = useState<OtherInfo>({ fathersName: user?.fathersName || 'abc' });
     const [userClicked, setUserClicked] = useState<'PERSONAL_INFO' | 'CURRENT_ADDR' | 'PERMANENT_ADDR' | 'OTHERS' | ''>('');
 
     const nav = useNavigate();
     useEffect(() => {
-        getUserApi('1')
+        getProfileApi()
             .then((user) => {
                 if (user.code === 200) {
                     user.data.id = user.data._id;
@@ -95,7 +76,6 @@ export default function Profile() {
 
     return (
         <div className="m-3 rounded-b-lg">
-            {user?.fathersName}
             <div className="flex justify-center">
                 <div className="relative" >
                     <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -224,7 +204,7 @@ function PersonalInfoComponent(props: PersonalInfo) {
                         <div className="mx-2 mt-2 text-sm flex items-start justify-between">
                             <div >
                                 <p className="mt-1 p-1"> মোবাইল: {props?.phone}</p>
-                                <p className="mt-1 p-1 text-sm"> রক্তের গ্রুপ: এ+ </p>
+                                <p className="mt-1 p-1 text-sm"> রক্তের গ্রুপ: {props.bloodGroup}</p>
                             </div>
                             <button
                                 className="mx-2"

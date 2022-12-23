@@ -38,7 +38,7 @@ export default function AllUsers() {
             {
                 users.map((user, index) => (
                     <Link
-                        to={`/users/${index}`}
+                        to={`/users/${user.id}`}
                         className="flex items-center h-14 justify-left w-full font-medium text-center rounded-t-[48px]"
                     >
                         <div className="w-8 h-8 pt-1 bg-[#E8F5F9] rounded-full text-center flex justify-center" >{++currRefId}</div>

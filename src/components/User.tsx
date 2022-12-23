@@ -48,7 +48,7 @@ export default function User() {
                 <p className="px-2 py-2 pt-0 pb-0 m-1 bg-[#E1FFF8] text-[#20BB96] rounded-md">{user?.passingYear}</p>
             </div>
             <p className="mt-2">{user?.name}</p>
-            <p className="mt-2 text-sm"> রক্তের গ্রুপ: এ+ </p>
+            <p className="mt-2 text-sm"> রক্তের গ্রুপ: {user?.bloodGroup}</p>
 
             {/* Contact */}
             <button
