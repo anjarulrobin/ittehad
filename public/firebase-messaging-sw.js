@@ -1,17 +1,21 @@
-importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
+// Scripts for firebase and firebase messaging
+importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.0.0/firebase-messaging-compat.js');
+
+// Initialize the Firebase app in the service worker by passing the generated config
 const firebaseConfig = {
-    apiKey: 'AIzaSyBGX96MisY8l9xoiUL92AV7appSjQwRbFI',
-    authDomain: "ittehad-b28ec.firebaseapp.com",
-    databaseURL: "https://lorem.firebaseio.com",
-    projectId: "ittehad-b28ec",
-    storageBucket: "ittehad-b28ec.appspot.com",
+    // apiKey: process.env.REACT_APP_FCM_API_KEY,
+    // authDomain: process.env.REACT_APP_FCM_AUTH_DOMAIN,
+    // projectId: process.env.REACT_APP_FCM_PROJECT_ID,
+    // storageBucket: process.env.REACT_APP_FCM_STORAGE_BUCKET,
     messagingSenderId: "9512057650",
-    appId: "1:9512057650:web:62302bec9aee5e3177f52b",
+    // appId: process.env.REACT_APP_FCM_APP_ID,
+    // measurementId: process.env.REACT_APP_FCM_MEASUREMENT_ID
 };
 
 firebase.initializeApp(firebaseConfig);
 
+// Retrieve firebase messaging
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage(function (payload) {
