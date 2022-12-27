@@ -30,7 +30,7 @@ export default function Registration() {
 
     return (
         <div className="m-2">
-            on step: {page}
+            {/* on step: {page} */}
             {
                 <div className="flex justify-center">
                     {

@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginAPI } from "../apis/login";
 import { LoginCredentials, LoginResponse } from "../types/auth";
 import { tryCatch } from "../utils/trycatch";
@@ -72,7 +72,7 @@ export default function Login() {
                         <a href="#" className="text-xs font-medium border-b-[1px] border-[#20BB96]">পাসওয়ার্ড ভুলে গেছেন?</a>
                     </div>
                     <div className="text-sm font-light m-1 w-fit border-b-2 border-[#20BB96]">
-                        <a href="#" className="font-medium">রেজিস্ট্রেশন করুন</a>
+                        <Link to="/registration/1" className="font-medium">রেজিস্ট্রেশন করুন</Link>
                     </div>
                 </form>
             </div>
