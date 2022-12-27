@@ -86,7 +86,7 @@ export default function Discussion() {
                             </p>
 
                             <div className="flex justify-end text-sm">
-                                {copyMessageId === message.id && (<p className="m-2">Text Copied!</p>)}
+                                {copyMessageId === message.id && (<p className="m-2">Post Copied!</p>)}
 
                                 <button
                                     onClick={() => {
@@ -100,9 +100,12 @@ export default function Discussion() {
                                 >
                                     <p> Copy </p>
                                 </button>
-                                <p className="m-2">
-                                    {`${message.totalComment} মন্তব্য`}
-                                </p>
+                                <Link
+                                    to={`/discussion/${message.id}/comments`}>
+                                    <p className="m-2">
+                                        {`${message.totalComment} মন্তব্য`}
+                                    </p>
+                                </Link>
                             </div>
                         </div>
 

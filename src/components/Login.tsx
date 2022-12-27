@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { LoginAPI } from "../apis/login";
 import { LoginCredentials, LoginResponse } from "../types/auth";
@@ -25,7 +25,9 @@ export default function Login() {
             setAuthError({ flag: true, details: [data.error || data.message] });
         }
     }
-
+    if (localStorage.getItem('auth')) {
+        navigate('/', { replace: true });
+    }
     return (
         <div className="m-4">
             <p className="mb-2 text-lg text-center font-bold"> লগ ইন করুন</p>

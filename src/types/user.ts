@@ -103,6 +103,10 @@ export interface UserProfile {
     fathersName: string;
     bloodGroup: string;
 }
+export interface UserAppContext extends UserProfile {
+    unReadNotifications: number;
+    unreadMessageCount: number;
+}
 
 interface GetProfileSuccessResponse extends CommonResponse {
     code: 200;
@@ -124,5 +128,15 @@ interface GetUserFailedResponse extends CommonResponse {
     code: 400;
 }
 
+interface UserAppContextSuccessResponse extends CommonResponse {
+    code: 200;
+    data: UserAppContext
+}
+
+interface UserAppContextFailedResponse extends CommonResponse {
+    code: 400;
+}
+
 export type UserResponse = GetUserSuccessResponse | GetUserFailedResponse;
+export type UserAppContextResponse = UserAppContextSuccessResponse | UserAppContextFailedResponse;
 
