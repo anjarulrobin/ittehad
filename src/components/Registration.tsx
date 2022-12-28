@@ -129,7 +129,7 @@ function FirstStep(props: StepProps) {
     const [data, setData] = useState<FirstStepData>({
         name: firstData.name || '',
         fathersName: firstData.fathersName || '',
-        phone: firstData.phone || '880',
+        phone: firstData.phone || '0',
         password: firstData.password || ''
     });
     const [err, setErr] = useState<string>('');
