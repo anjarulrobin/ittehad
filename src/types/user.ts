@@ -106,6 +106,7 @@ export interface UserProfile {
 export interface UserAppContext extends UserProfile {
     unReadNotifications: number;
     unreadMessageCount: number;
+    role: string;
 }
 
 interface GetProfileSuccessResponse extends CommonResponse {

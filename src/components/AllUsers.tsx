@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { getUsersApi } from "../apis/getUsers";
-import { User, UserListRequestParams } from "../types/user";
+import { User } from "../types/user";
 import { Loader } from "./Loader";
 
 export default function AllUsers() {

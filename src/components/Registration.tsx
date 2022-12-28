@@ -143,9 +143,18 @@ function FirstStep(props: StepProps) {
                     action="#"
                     onSubmit={(ev) => {
                         ev.preventDefault();
-                        const registration = JSON.parse(localStorage.getItem('registration') || '{}');
-                        localStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
-                        props.goForward();
+                        // validation
+                        if (data.phone.length !== 11) {
+                            setErr('Not a valid Phone number');
+                        }
+                        else if (data.password.length < 6) {
+                            setErr('Too short Password');
+                        }
+                        else {
+                            const registration = JSON.parse(localStorage.getItem('registration') || '{}');
+                            localStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
+                            props.goForward();
+                        }
                     }}
                 >
                     <div className="m-2">
@@ -252,7 +261,7 @@ function SecondStep(props: StepProps) {
     const [upzillas, setUpzillas] = useState<Upzilla[]>([]);
 
     useEffect(() => {
-        if (!data.division.id) {
+        if (!divisions.length) {
             getDivisionsApi()
                 .then((divisionData) => {
                     if (divisionData.code === 200) {
@@ -261,7 +270,7 @@ function SecondStep(props: StepProps) {
                 })
                 .catch((err) => console.error(err))
         }
-        else if (!data.district.id) {
+        else if (!districts.length) {
             getDistrictsApi(data.division.id)
                 .then((districtData) => {
                     if (districtData.code === 200) {
@@ -270,7 +279,7 @@ function SecondStep(props: StepProps) {
                 })
                 .catch((err) => console.error(err))
         }
-        else if (!data.upzilla.id) {
+        else if (!upzillas.length) {
             getUpzillasApi(data.district.id)
                 .then((upzillaData) => {
                     if (upzillaData.code === 200) {
@@ -447,7 +456,7 @@ function ThirdStep(props: StepProps) {
     const [upzillas, setUpzillas] = useState<Upzilla[]>([]);
 
     useEffect(() => {
-        if (!data.division.id) {
+        if (!divisions.length) {
             getDivisionsApi()
                 .then((divisionData) => {
                     if (divisionData.code === 200) {
@@ -456,7 +465,7 @@ function ThirdStep(props: StepProps) {
                 })
                 .catch((err) => console.error(err))
         }
-        else if (!data.district.id) {
+        else if (!districts.length) {
             getDistrictsApi(data.division.id)
                 .then((districtData) => {
                     if (districtData.code === 200) {
@@ -465,7 +474,7 @@ function ThirdStep(props: StepProps) {
                 })
                 .catch((err) => console.error(err))
         }
-        else if (!data.upzilla.id) {
+        else if (!upzillas.length) {
             getUpzillasApi(data.district.id)
                 .then((upzillaData) => {
                     if (upzillaData.code === 200) {
@@ -712,6 +721,7 @@ function FourthStep(props: StepProps) {
                                 className="w-full border p-1 rounded-lg"
                                 value={data.academicDescription}
                                 placeholder="উদাঃ ২০০০-২০১০"
+                                required={true}
                             />
                         </div>
                         <div className="mt-4">
@@ -722,6 +732,7 @@ function FourthStep(props: StepProps) {
                                 onChange={(ev) => setData({ ...data, studiedJamat: ev.target.value })}
                                 className="w-full border p-1 rounded-lg"
                                 value={data.studiedJamat}
+                                required={true}
                             />
                         </div>
                     </div>
@@ -862,42 +873,50 @@ function FifthStep(props: StepProps) {
 
 function FinalStep() {
     const registration = JSON.parse(localStorage.getItem('registration') || '{}');
-    const [isLoading, setLoading] = useState(true);
+    const hasData = Object.keys(registration).length > 0;
+    const [isLoading, setLoading] = useState(hasData);
     const [otp, setOtp] = useState('');
     const [status, setStatus] = useState<'SUCCESS' | 'FAILED' | ''>('');
     const [err, setError] = useState('');
     const navigate = useNavigate();
+    if (hasData) {
+        registration.permanentAddress.upzilla_id = registration.permanentAddress.upzilla.id;
+        registration.permanentAddress.district_id = registration.permanentAddress.district.id;
+        registration.permanentAddress.division_id = registration.permanentAddress.division.id;
 
-    registration.permanentAddress.upzilla_id = registration.permanentAddress.upzilla.id;
-    registration.permanentAddress.district_id = registration.permanentAddress.district.id;
-    registration.permanentAddress.division_id = registration.permanentAddress.division.id;
-
-    registration.currentAddress.upzilla_id = registration.currentAddress.upzilla.id;
-    registration.currentAddress.district_id = registration.currentAddress.district.id;
-    registration.currentAddress.division_id = registration.currentAddress.division.id;
+        registration.currentAddress.upzilla_id = registration.currentAddress.upzilla.id;
+        registration.currentAddress.district_id = registration.currentAddress.district.id;
+        registration.currentAddress.division_id = registration.currentAddress.division.id;
 
 
-    delete registration.permanentAddress.upzilla;
-    delete registration.permanentAddress.district;
-    delete registration.permanentAddress.division;
+        delete registration.permanentAddress.upzilla;
+        delete registration.permanentAddress.district;
+        delete registration.permanentAddress.division;
 
-    delete registration.currentAddress.upzilla;
-    delete registration.currentAddress.district;
-    delete registration.currentAddress.division;
-    delete registration.userType;
-    if (!registration.occupation) {
-        delete registration.occupation;
+        delete registration.currentAddress.upzilla;
+        delete registration.currentAddress.district;
+        delete registration.currentAddress.division;
+        delete registration.userType;
+        if (!registration.occupation) {
+            delete registration.occupation;
+        }
     }
-
     useEffect(() => {
-        RegisterAPI(registration)
+        hasData && RegisterAPI(registration)
             .then((resp) => {
                 if (resp.code === 200) {
-                    console.log('success');
-                    setLoading(false);
+                    setError('');
+                }
+                else {
+                    setError(resp.message);
+                    setStatus('FAILED');
                 }
             })
-            .catch((err) => console.error(err))
+            .catch((err) => {
+                console.error(err);
+                setError(err.message || 'Something went wrong!');
+                setStatus('FAILED');
+            })
             .finally(() => setLoading(false))
     }, [])
 
@@ -927,49 +946,54 @@ function FinalStep() {
                                 </button>
                             </div>
                         </div > :
-                        <form
-                            action="#"
-                            onSubmit={(ev) => {
-                                ev.preventDefault();
-                                setLoading(true);
-                                setError('');
-                                setStatus('');
-                                VerifyRegistrationOtpAPI({ otp, phone: registration.phone })
-                                    .then((res) => {
-                                        console.log({ res })
-                                        if (res.code === 200) {
-                                            setStatus('SUCCESS');
-                                        } else {
-                                            setStatus('FAILED');
-                                            setError('OTP mismatch!');
-                                        }
-                                    })
-                                    .catch((err) => {
-                                        setStatus('FAILED');
-                                        setError('Something went wrong!' + err);
-                                    })
-                                    .finally(() => setLoading(false))
-                            }}
-                        >
-                            <p> To complete you registration please put the OTP sent to your number within 5 minutes</p>
-                            <div className="mt-2 flex-col">
-                                <label htmlFor="otp" className="">OTP (6 digit):</label>
-                                <input
-                                    type="text"
-                                    value={otp}
-                                    className="w-full text-center mx-2 border p-1 rounded-lg"
-                                    onChange={(ev) => setOtp(ev.target.value)}
-                                />
-                                {err && <p className="text-center text-red-400">{err}</p>}
-                                <button
-                                    type="submit"
-                                    disabled={otp.length !== 6}
-                                    className={`${otp.length === 6 ? 'bg-[#20BB96]' : 'bg-gray-200'} w-full p-1 rounded-lg m-2`}
+                        <div>
+                            {
+                                status === '' && <form
+                                    action="#"
+                                    onSubmit={(ev) => {
+                                        ev.preventDefault();
+                                        setLoading(true);
+                                        setError('');
+                                        setStatus('');
+                                        VerifyRegistrationOtpAPI({ otp, phone: registration.phone })
+                                            .then((res) => {
+                                                console.log({ res })
+                                                if (res.code === 200) {
+                                                    setStatus('SUCCESS');
+                                                    localStorage.removeItem('registration');
+                                                } else {
+                                                    setStatus('FAILED');
+                                                    setError(res.message);
+                                                }
+                                            })
+                                            .catch((err) => {
+                                                setStatus('FAILED');
+                                                setError('Something went wrong!' + err);
+                                            })
+                                            .finally(() => setLoading(false))
+                                    }}
                                 >
-                                    Verify
-                                </button>
-                            </div>
-                        </form>
+                                    <p> To complete you registration please put the OTP sent to your number within 5 minutes</p>
+                                    <div className="mt-2 flex-col">
+                                        <label htmlFor="otp" className="">OTP (6 digit):</label>
+                                        <input
+                                            type="text"
+                                            value={otp}
+                                            className="w-full text-center mx-2 border p-1 rounded-lg"
+                                            onChange={(ev) => setOtp(ev.target.value)}
+                                        />
+                                        <button
+                                            type="submit"
+                                            disabled={otp.length !== 6}
+                                            className={`${otp.length === 6 ? 'bg-[#20BB96]' : 'bg-gray-200'} w-full p-1 rounded-lg m-2`}
+                                        >
+                                            Verify
+                                        </button>
+                                    </div>
+                                </form>}
+                            {err && <p className="text-center text-red-400">{err}</p>}
+                        </div>
+
             }
         </div>
     )
