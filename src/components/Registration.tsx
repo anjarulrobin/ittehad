@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getDistrictsApi } from "../apis/getDistricts";
 import { getDivisionsApi } from "../apis/getDivisions";
 import { getUpzillasApi } from "../apis/getUpzillas";
+import { RegisterAPI } from "../apis/register";
+import { VerifyRegistrationOtpAPI } from "../apis/verifyRegistrationOtp";
 import { Division, Upzilla } from "../types/address";
+import { RegistrationData } from "../types/auth";
+import { Loader } from "./Loader";
 import { getYearList } from "./utils/YearList";
 
 function getStepSvg(type: 'complete' | 'incomplete' = 'incomplete') {
@@ -86,6 +90,23 @@ export default function Registration() {
                     goBackWard={() => navigate('/registration/3')}
                 />
             }
+            {
+                page === "5" &&
+                <FifthStep
+                    key="5"
+                    goForward={() => navigate('/registration/6')}
+                    goBackWard={() => navigate('/registration/4 ')}
+                />
+            }
+            {
+                page === "6" &&
+                <FinalStep
+                    key="6"
+                // goForward={() => navigate('/registration/6')}
+                // goBackWard={() => navigate('/registration/4 ')}
+                />
+            }
+
 
         </div>
     )
@@ -100,11 +121,17 @@ interface FirstStepData {
     name: string;
     fathersName: string;
     phone: string;
+    password: string;
 }
 
 function FirstStep(props: StepProps) {
     const firstData = JSON.parse(localStorage.getItem('registration') || '{}');
-    const [data, setData] = useState<FirstStepData>({ name: firstData.name || '', fathersName: firstData.fathersName || '', phone: firstData.phone || '880' });
+    const [data, setData] = useState<FirstStepData>({
+        name: firstData.name || '',
+        fathersName: firstData.fathersName || '',
+        phone: firstData.phone || '880',
+        password: firstData.password || ''
+    });
     const [err, setErr] = useState<string>('');
 
     return (
@@ -149,6 +176,16 @@ function FirstStep(props: StepProps) {
                             onChange={(ev) => setData({ ...data, phone: ev.target.value })}
                             className="w-full border p-1 rounded-lg"
                             value={data.phone}
+                            required={true} />
+                    </div>
+                    <div className="m-2">
+                        <label htmlFor="password" className="w-full text-sm">পাসওয়ার্ড</label>
+                        <input
+                            type="password"
+                            name="password"
+                            onChange={(ev) => setData({ ...data, password: ev.target.value })}
+                            className="w-full border p-1 rounded-lg"
+                            value={data.password || ''}
                             required={true} />
                     </div>
 
@@ -724,5 +761,216 @@ function FourthStep(props: StepProps) {
             </div >
         </div >
 
+    )
+}
+
+interface FifthStep {
+    occupation: string;
+    workStation: string;
+    designation: string;
+    voluntaryTasks: string;
+    masjidAddress: string;
+}
+
+function FifthStep(props: StepProps) {
+    const thirdData = JSON.parse(localStorage.getItem('registration') || '{}');
+    const [data, setData] = useState<FifthStep>({
+        occupation: '',
+        // workStation: string;
+        // designation: string;
+        voluntaryTasks: '',
+        masjidAddress: '',
+        ...thirdData
+    });
+
+    const [err, setErr] = useState<string>('');
+
+    return (
+        <div className="m-4">
+            <p className="m-2 text-xl text-center font-ittehad-title">আপনার পেশাগত তথ্য দিন</p>
+            <div className="flex justify-center">
+                <form
+                    className=""
+                    action="#"
+                    onSubmit={(ev) => {
+                        ev.preventDefault();
+                        const registration = JSON.parse(localStorage.getItem('registration') || '{}');
+                        localStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
+                        props.goForward();
+                    }}
+                >
+                    <div>
+                        <label className="w-full text-sm">তাসনীফী কাজ থাকলে বিবরণ দিন </label>
+                        <div className="m-2 flex justify-between">
+                            <input
+                                type="text"
+                                name="voluntaryTasks"
+                                onChange={(ev) => setData({ ...data, voluntaryTasks: ev.target.value })}
+                                className="w-full border p-1 rounded-lg"
+                                value={data.voluntaryTasks}
+                            />
+                        </div>
+
+                        <label className="w-full text-sm">ইমামতি / খেতাবতের দায়িত্বে থাকলে মসজিদ ও এলাকার বিবরণ দিন</label>
+                        <div className="m-2 flex justify-between">
+                            <input
+                                type="text"
+                                name="masjidAddress"
+                                onChange={(ev) => setData({ ...data, masjidAddress: ev.target.value })}
+                                className="w-full border p-1 rounded-lg"
+                                value={data.masjidAddress}
+                            />
+                        </div>
+                    </div>
+                    {
+                        err && (
+                            <div
+                                className="text-red-400 text-sm text-center"> {err}
+                            </div>
+                        )
+                    }
+                    <div className="flex justify-between mt-4">
+                        <button
+                            type="button"
+                            className="bg-[#20BB96] w-fit p-1 rounded-lg m-2"
+                            onClick={() => props.goBackWard()}
+                        >
+                            <div className="flex items-center justify-between">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-6">
+                                    <path fillRule="evenodd" d="M7.28 7.72a.75.75 0 010 1.06l-2.47 2.47H21a.75.75 0 010 1.5H4.81l2.47 2.47a.75.75 0 11-1.06 1.06l-3.75-3.75a.75.75 0 010-1.06l3.75-3.75a.75.75 0 011.06 0z" clipRule="evenodd" />
+                                </svg>
+                                <p>পূর্ববর্তী ধাপে যান</p>
+                            </div>
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-[#20BB96] w-fit p-1 rounded-lg m-2"
+                        >
+                            <div className="flex items-center justify-between">
+                                নিবন্ধন করুন
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-6">
+                                    <path fillRule="evenodd" d="M16.72 7.72a.75.75 0 011.06 0l3.75 3.75a.75.75 0 010 1.06l-3.75 3.75a.75.75 0 11-1.06-1.06l2.47-2.47H3a.75.75 0 010-1.5h16.19l-2.47-2.47a.75.75 0 010-1.06z" clipRule="evenodd" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                </form>
+            </div >
+        </div >
+    )
+}
+
+function FinalStep() {
+    const registration = JSON.parse(localStorage.getItem('registration') || '{}');
+    const [isLoading, setLoading] = useState(true);
+    const [otp, setOtp] = useState('');
+    const [status, setStatus] = useState<'SUCCESS' | 'FAILED' | ''>('');
+    const [err, setError] = useState('');
+    const navigate = useNavigate();
+
+    registration.permanentAddress.upzilla_id = registration.permanentAddress.upzilla.id;
+    registration.permanentAddress.district_id = registration.permanentAddress.district.id;
+    registration.permanentAddress.division_id = registration.permanentAddress.division.id;
+
+    registration.currentAddress.upzilla_id = registration.currentAddress.upzilla.id;
+    registration.currentAddress.district_id = registration.currentAddress.district.id;
+    registration.currentAddress.division_id = registration.currentAddress.division.id;
+
+
+    delete registration.permanentAddress.upzilla;
+    delete registration.permanentAddress.district;
+    delete registration.permanentAddress.division;
+
+    delete registration.currentAddress.upzilla;
+    delete registration.currentAddress.district;
+    delete registration.currentAddress.division;
+    delete registration.userType;
+    if (!registration.occupation) {
+        delete registration.occupation;
+    }
+
+    useEffect(() => {
+        RegisterAPI(registration)
+            .then((resp) => {
+                if (resp.code === 200) {
+                    console.log('success');
+                    setLoading(false);
+                }
+            })
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false))
+    }, [])
+
+    return (
+        <div className="mt-4">
+            {
+                isLoading ?
+                    <Loader message="Your data is being submitted..." /> :
+                    status === 'SUCCESS' ?
+                        <div className="">
+                            <div className="w-full flex justify-center">
+                                <div className="bg-[#E1FFF8] w-20 h-20 rounded-full flex justify-center items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#20BB96" className="w-10 h-10">
+                                        <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <p className="text-center w-full mt-2"> Your registration is complete!</p>
+
+                            <div
+                                className=" mt-4 flex justify-center"
+                            >
+                                <button
+                                    onClick={() => navigate('/login', { replace: true })}
+                                    className="w-fit py-0.5 px-2 bg-[#20BB96] rounded-lg"
+                                > Go Home
+                                </button>
+                            </div>
+                        </div > :
+                        <form
+                            action="#"
+                            onSubmit={(ev) => {
+                                ev.preventDefault();
+                                setLoading(true);
+                                setError('');
+                                setStatus('');
+                                VerifyRegistrationOtpAPI({ otp, phone: registration.phone })
+                                    .then((res) => {
+                                        console.log({ res })
+                                        if (res.code === 200) {
+                                            setStatus('SUCCESS');
+                                        } else {
+                                            setStatus('FAILED');
+                                            setError('OTP mismatch!');
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        setStatus('FAILED');
+                                        setError('Something went wrong!' + err);
+                                    })
+                                    .finally(() => setLoading(false))
+                            }}
+                        >
+                            <p> To complete you registration please put the OTP sent to your number within 5 minutes</p>
+                            <div className="mt-2 flex-col">
+                                <label htmlFor="otp" className="">OTP (6 digit):</label>
+                                <input
+                                    type="text"
+                                    value={otp}
+                                    className="w-full text-center mx-2 border p-1 rounded-lg"
+                                    onChange={(ev) => setOtp(ev.target.value)}
+                                />
+                                {err && <p className="text-center text-red-400">{err}</p>}
+                                <button
+                                    type="submit"
+                                    disabled={otp.length !== 6}
+                                    className={`${otp.length === 6 ? 'bg-[#20BB96]' : 'bg-gray-200'} w-full p-1 rounded-lg m-2`}
+                                >
+                                    Verify
+                                </button>
+                            </div>
+                        </form>
+            }
+        </div>
     )
 }

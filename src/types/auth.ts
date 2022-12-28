@@ -1,3 +1,5 @@
+import { CommonResponse } from "./common";
+
 export interface LoginCredentials {
     phone: string;
     password: string;
@@ -36,22 +38,31 @@ export interface RegistrationData {
         upzilla_id: string;
         district_id: string;
     }
-    secondaryPhone?: string;
+    // secondaryPhone?: string;
     // socialNumber: Joi.string().label('Social number').length(11),
     // email: Joi.string().label('Email'),
-    // academicDescription: Joi.string().label('Academic Details'),
-    // occupation: Joi.string().label('Occupation'),
-    // workStation: Joi.string().label('Work station'),
+    academicDescription: string;
+    // occupation: string;
+    workStation: string;
     // designation: Joi.string().label('Designation'),
     // takhassus: Joi.string().label('Takhassus'),
     // workingInterest: Joi.string().label('Occupation'),
-    isInterestedToDonate?: boolean;
-    monthlyDonationAmount?: number;
-    // voluntaryTasks: Joi.string().label('Voluntary tasks'),
-    // masjidAddress: Joi.string().label('Masjid Address'),
+    // isInterestedToDonate?: boolean;
+    // monthlyDonationAmount?: number;
+    voluntaryTasks: string;
+    masjidAddress: string;
     bloodGroup: 'A+' | 'B+' | 'O+' | 'A-' | 'B-' | 'O-' | 'AB+' | 'AB-';
     // islahiRelation: Joi.string().label('Islahi Relation'),
     // suggestion: Joi.string().label('Suggestion'),
-    // studiedJamat: Joi.string().label('Studied jamat'),
+    studiedJamat: string,
     fcmToken?: string;
 }
+
+export type RegistrationResponse = CommonResponse;
+
+export interface VerifyRegOtpInterface {
+    otp: string;
+    phone: string;
+}
+
+export type VerifyRegOtpResponse = CommonResponse;
