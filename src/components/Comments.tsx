@@ -12,12 +12,11 @@ export default function Comments() {
     const [comment, setComment] = useState<string>('');
     const [comments, setComments] = useState<CommentResponse[]>([]);
     const [skip, setSkip] = useState(0);
-    const navigate = useNavigate();
     const [authError, setAuthError] = useState<{ flag: boolean, details: string[] }>({ flag: false, details: [] });
     const [loading, setLoading] = useState<'sendComment' | 'loadComments' | ''>('');
     const { postId } = useParams<string>();
     const lastCommentRef = useRef(null);
-    console.log(postId);
+
     const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
         ev.preventDefault();
         setLoading('sendComment');

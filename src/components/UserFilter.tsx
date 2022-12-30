@@ -1,10 +1,7 @@
-import { lazy, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { getYearList } from "./utils/YearList";
 import { getYearRange } from "./utils/YearRange";
-const AllUsers = lazy(() => import("./AllUsers"));
-
-
 
 interface YearSelection {
     startYear: number;

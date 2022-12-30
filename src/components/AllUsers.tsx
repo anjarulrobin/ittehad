@@ -6,7 +6,7 @@ import { Loader } from "./Loader";
 
 export default function AllUsers() {
     const [users, setUsers] = useState<User[]>([]);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const LIMIT = 10;
     const [skip, setSkip] = useState(0);
     const [loading, setLoading] = useState(false);

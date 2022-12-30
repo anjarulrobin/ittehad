@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getMessagesApi } from "../apis/getMessages";
-import { getProfileApi } from "../apis/getProfile";
 import { Loader } from "./Loader";
 import { getBanglaDate } from "./utils/getBanglaDate";
 

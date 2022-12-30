@@ -39,7 +39,7 @@ export default function User() {
                 }
             })
             .catch((err) => console.error(err));
-    }, []);
+    }, [userId]);
 
     return (
         <div className="m-3 rounded-b-lg">

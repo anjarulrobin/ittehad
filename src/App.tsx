@@ -31,7 +31,7 @@ const Registration = lazy(() => import("./components/Registration"));
 const SignupRequests = lazy(() => import("./components/SignupRequests"));
 
 function App() {
-  const [title, setTitle] = useState<string>('ইত্তেহাদ');
+  const title = 'ইত্তেহাদ';
   const [appContext, setAppContext] = useState<UserAppContext | null>();
 
   useEffect(() => {

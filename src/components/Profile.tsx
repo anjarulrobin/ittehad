@@ -193,7 +193,6 @@ export default function Profile() {
 }
 
 function PersonalInfoComponent(props: PersonalInfo) {
-    const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(props);
     const [mode, setMode] = useState<ViewOrEdit>(ViewOrEdit.view);
 
     return (

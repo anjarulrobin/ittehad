@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDistrictsApi } from "../apis/getDistricts";
 import { getDivisionsApi } from "../apis/getDivisions";
 import { getUpzillasApi } from "../apis/getUpzillas";
 import { RegisterAPI } from "../apis/register";
 import { VerifyRegistrationOtpAPI } from "../apis/verifyRegistrationOtp";
 import { Division, Upzilla } from "../types/address";
-import { RegistrationData } from "../types/auth";
 import { Loader } from "./Loader";
 import { getYearList } from "./utils/YearList";
 
@@ -106,8 +105,6 @@ export default function Registration() {
                 // goBackWard={() => navigate('/registration/4 ')}
                 />
             }
-
-
         </div>
     )
 }
@@ -634,7 +631,7 @@ function ThirdStep(props: StepProps) {
     )
 }
 
-interface FourthStep {
+interface FourthStepData {
     userType: 'teacher' | 'student';
     passingYear: number;
     studiedJamat: string;
@@ -643,7 +640,7 @@ interface FourthStep {
 
 function FourthStep(props: StepProps) {
     const thirdData = JSON.parse(localStorage.getItem('registration') || '{}');
-    const [data, setData] = useState<FourthStep>({
+    const [data, setData] = useState<FourthStepData>({
         academicDescription: '',
         passingYear: 0,
         studiedJamat: '',
@@ -775,7 +772,7 @@ function FourthStep(props: StepProps) {
     )
 }
 
-interface FifthStep {
+interface FifthStepData {
     occupation: string;
     workStation: string;
     designation: string;
@@ -785,7 +782,7 @@ interface FifthStep {
 
 function FifthStep(props: StepProps) {
     const thirdData = JSON.parse(localStorage.getItem('registration') || '{}');
-    const [data, setData] = useState<FifthStep>({
+    const [data, setData] = useState<FifthStepData>({
         occupation: '',
         // workStation: string;
         // designation: string;
