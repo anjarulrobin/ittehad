@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import { register } from "./serviceWorkerRegistration";
-import { initFCM, onMessageListener } from './config/firebase';
 import { UserAppContext } from "./types/user";
 import { getAppContextApi } from "./apis/getAppContext";
 
@@ -50,13 +49,6 @@ function App() {
       })
       .catch((err) => console.error(err));
   }, []);
-
-  onMessageListener()
-    .then(payload => {
-      // setShow(true);
-      // setNotification({ title: payload.notification.title, body: payload.notification.body })
-      console.log(payload);
-    }).catch(err => console.log('failed: ', err));
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -143,6 +135,5 @@ function App() {
 }
 
 register();
-initFCM();
 
 export default App;
