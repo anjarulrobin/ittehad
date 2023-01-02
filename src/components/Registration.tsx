@@ -122,7 +122,7 @@ interface FirstStepData {
 }
 
 function FirstStep(props: StepProps) {
-    const firstData = JSON.parse(localStorage.getItem('registration') || '{}');
+    const firstData = JSON.parse(sessionStorage.getItem('registration') || '{}');
     const [data, setData] = useState<FirstStepData>({
         name: firstData.name || '',
         fathersName: firstData.fathersName || '',
@@ -148,8 +148,8 @@ function FirstStep(props: StepProps) {
                             setErr('Too short Password');
                         }
                         else {
-                            const registration = JSON.parse(localStorage.getItem('registration') || '{}');
-                            localStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
+                            const registration = JSON.parse(sessionStorage.getItem('registration') || '{}');
+                            sessionStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
                             props.goForward();
                         }
                     }}
@@ -243,7 +243,7 @@ const defaultValue: Division = {
 }
 
 function SecondStep(props: StepProps) {
-    const secondData = JSON.parse(localStorage.getItem('registration') || '{}');
+    const secondData = JSON.parse(sessionStorage.getItem('registration') || '{}');
     const [data, setData] = useState<SecondStepData>({
         village: '',
         post: '',
@@ -299,8 +299,8 @@ function SecondStep(props: StepProps) {
                     action="#"
                     onSubmit={(ev) => {
                         ev.preventDefault();
-                        const registration = JSON.parse(localStorage.getItem('registration') || '{}');
-                        localStorage.setItem('registration', JSON.stringify({ ...registration, permanentAddress: data }));
+                        const registration = JSON.parse(sessionStorage.getItem('registration') || '{}');
+                        sessionStorage.setItem('registration', JSON.stringify({ ...registration, permanentAddress: data }));
                         props.goForward();
                     }}
                 >
@@ -438,7 +438,7 @@ function SecondStep(props: StepProps) {
 
 
 function ThirdStep(props: StepProps) {
-    const thirdData = JSON.parse(localStorage.getItem('registration') || '{}');
+    const thirdData = JSON.parse(sessionStorage.getItem('registration') || '{}');
     const [data, setData] = useState<SecondStepData>({
         village: '',
         post: '',
@@ -494,8 +494,8 @@ function ThirdStep(props: StepProps) {
                     action="#"
                     onSubmit={(ev) => {
                         ev.preventDefault();
-                        const registration = JSON.parse(localStorage.getItem('registration') || '{}');
-                        localStorage.setItem('registration', JSON.stringify({ ...registration, currentAddress: data }));
+                        const registration = JSON.parse(sessionStorage.getItem('registration') || '{}');
+                        sessionStorage.setItem('registration', JSON.stringify({ ...registration, currentAddress: data }));
                         props.goForward();
                     }}
                 >
@@ -639,7 +639,7 @@ interface FourthStepData {
 }
 
 function FourthStep(props: StepProps) {
-    const thirdData = JSON.parse(localStorage.getItem('registration') || '{}');
+    const thirdData = JSON.parse(sessionStorage.getItem('registration') || '{}');
     const [data, setData] = useState<FourthStepData>({
         academicDescription: '',
         passingYear: 0,
@@ -659,8 +659,8 @@ function FourthStep(props: StepProps) {
                     action="#"
                     onSubmit={(ev) => {
                         ev.preventDefault();
-                        const registration = JSON.parse(localStorage.getItem('registration') || '{}');
-                        localStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
+                        const registration = JSON.parse(sessionStorage.getItem('registration') || '{}');
+                        sessionStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
                         props.goForward();
                     }}
                 >
@@ -781,7 +781,7 @@ interface FifthStepData {
 }
 
 function FifthStep(props: StepProps) {
-    const thirdData = JSON.parse(localStorage.getItem('registration') || '{}');
+    const thirdData = JSON.parse(sessionStorage.getItem('registration') || '{}');
     const [data, setData] = useState<FifthStepData>({
         occupation: '',
         // workStation: string;
@@ -802,8 +802,8 @@ function FifthStep(props: StepProps) {
                     action="#"
                     onSubmit={(ev) => {
                         ev.preventDefault();
-                        const registration = JSON.parse(localStorage.getItem('registration') || '{}');
-                        localStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
+                        const registration = JSON.parse(sessionStorage.getItem('registration') || '{}');
+                        sessionStorage.setItem('registration', JSON.stringify({ ...registration, ...data }));
                         props.goForward();
                     }}
                 >
@@ -869,7 +869,7 @@ function FifthStep(props: StepProps) {
 }
 
 function FinalStep() {
-    const registration = JSON.parse(localStorage.getItem('registration') || '{}');
+    const registration = JSON.parse(sessionStorage.getItem('registration') || '{}');
     const hasData = Object.keys(registration).length > 0;
     const [isLoading, setLoading] = useState(hasData);
     const [otp, setOtp] = useState('');
@@ -957,7 +957,7 @@ function FinalStep() {
                                                 console.log({ res })
                                                 if (res.code === 200) {
                                                     setStatus('SUCCESS');
-                                                    localStorage.removeItem('registration');
+                                                    sessionStorage.removeItem('registration');
                                                 } else {
                                                     setStatus('FAILED');
                                                     setError(res.message);

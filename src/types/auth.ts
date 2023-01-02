@@ -3,6 +3,7 @@ import { CommonResponse } from "./common";
 export interface LoginCredentials {
     phone: string;
     password: string;
+    fcmtoken?: string;
 }
 
 interface LoginSuccessResponse {

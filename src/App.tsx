@@ -10,6 +10,7 @@ import { PrivateRoute } from "./PrivateRoute";
 import { register } from "./serviceWorkerRegistration";
 import { UserAppContext } from "./types/user";
 import { getAppContextApi } from "./apis/getAppContext";
+import { initFCM, onMessageListener } from "./components/Firebase";
 
 const UserFilter = lazy(() => import("./components/UserFilter"));
 const Discussion = lazy(() => import("./components/Discussion"));
@@ -32,7 +33,18 @@ const SignupRequests = lazy(() => import("./components/SignupRequests"));
 
 function App() {
   const title = 'ইত্তেহাদ';
-  const [appContext, setAppContext] = useState<UserAppContext | null>();
+  const [appContext, setAppContext] = useState<UserAppContext | null>(null);
+
+  onMessageListener().then(payload => {
+    if (payload?.data?.type === 'ANNOUNCEMENT') {
+      const newContext = { ...appContext };
+      newContext.unReadNotifications = newContext.unReadNotifications || 0;
+      newContext.unReadNotifications += 1;
+      //@ts-ignore
+      setAppContext(newContext);
+    }
+  })
+    .catch(err => console.log('failed: ', err));
 
   useEffect(() => {
     getAppContextApi()
@@ -135,5 +147,5 @@ function App() {
 }
 
 register();
-
+initFCM();
 export default App;

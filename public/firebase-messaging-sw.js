@@ -1,5 +1,5 @@
-importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-app.js");
-importScripts("https://www.gstatic.com/firebasejs/5.9.4/firebase-messaging.js");
+importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/8.2.0/firebase-messaging.js');
 const firebaseConfig = {
     apiKey: 'AIzaSyBGX96MisY8l9xoiUL92AV7appSjQwRbFI',
     authDomain: "ittehad-b28ec.firebaseapp.com",
@@ -14,14 +14,14 @@ firebase.initializeApp(firebaseConfig);
 
 const messaging = firebase.messaging();
 
-// messaging.onBackgroundMessage(function (payload) {
-//     console.log('Received background message ', payload);
+// Retrieve firebase messaging
+messaging.onBackgroundMessage(function (payload) {
+    // Customize notification here
+    const notificationTitle = payload.notification.title;
+    const notificationOptions = {
+        body: payload.notification.body,
+    };
 
-//     const notificationTitle = payload.notification.title;
-//     const notificationOptions = {
-//         body: payload.notification.body,
-//     };
-
-//     self.registration.showNotification(notificationTitle,
-//         notificationOptions);
-// });
+    self.registration.showNotification(notificationTitle,
+        notificationOptions);
+});

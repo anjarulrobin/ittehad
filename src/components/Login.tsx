@@ -14,11 +14,15 @@ export default function Login() {
     const handleSubmit = async (ev: FormEvent<HTMLFormElement>) => {
         ev.preventDefault();
         setLoading(true);
+        const fcmtoken = localStorage.getItem('fcmtoken');
+        if (auth && fcmtoken) {
+            auth.fcmtoken = fcmtoken;
+        }
         const data = await tryCatch(LoginAPI, auth) as LoginResponse;
 
         if (data.code === 200) {
             localStorage.setItem('auth', JSON.stringify({ token: data.data.token }));
-            navigate('/general', { replace: true });
+            navigate('/', { replace: true });
         }
         else {
             setLoading(false);
