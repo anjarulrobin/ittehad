@@ -1,6 +1,5 @@
 import { UserListRequestParams, UserListResponse } from "../types/user";
 import { fetcher } from "../utils/fetcher";
-import { UserData } from "./user-data";
 
 export async function getUsersApi(params: UserListRequestParams): Promise<UserListResponse> {
     const authData = JSON.parse(localStorage.getItem('auth') || '');
@@ -36,10 +35,4 @@ export async function getUsersApi(params: UserListRequestParams): Promise<UserLi
         })
 
     return users;
-    // return ({
-    //     "code": 200,
-    //     "message": "SUCCESS",
-    //     // @ts-ignore
-    //     "data": UserData
-    // })
 }

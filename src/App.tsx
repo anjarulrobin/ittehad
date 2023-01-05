@@ -114,7 +114,7 @@ function App() {
 
               </div>
             </div>
-            <div className="rounded-t-[48px] rounded-b-2xl h-fit overflow-auto bg-white px-2 py-2">
+            <div className="rounded-t-2xl rounded-b-2xl h-fit overflow-auto bg-white px-2 py-2">
               <Routes>
                 <Route path='/login' element={<Login />} />
                 <Route path='/registration/:page' element={<Registration />} />

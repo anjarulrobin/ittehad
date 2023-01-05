@@ -5,7 +5,7 @@ export async function sendMessageApi(body: MessageBody) {
     const authData = JSON.parse(localStorage.getItem('auth') || '');
     const token = authData?.token;
     // const url = `https://wild-tan-meerkat-robe.cyclic.app/api/groups/send-message`;
-    const url = `${process.env.REACT_APP_API_ORIGIN}/api/groups/send-message`;
+    const url = `${process.env.REACT_APP_API_ORIGIN}/groups/send-message`;
 
     const mssagesResponse: MessageSendResponse = await fetcher(url,
         {

@@ -28,29 +28,25 @@ export default function CreateAnnouncement() {
 
     return (
         <div className="m-2">
-            <p className="mb-2 text-lg text-center"> এলান </p>
-            <div className="flex justify-center">
-                <form className="" action="#" onSubmit={handleSubmit}>
-                    <div className="">
-                        <textarea
-                            name="title"
-                            onChange={(ev) => setAnnouncement({ ...announcement, title: ev.target.value })}
-                            className="border border-[#20BB96] p-1 rounded-lg h-16 m-1 text-center"
-                            placeholder="শিরোনাম"
-                            value={announcement.title}
-                            required={true}
-                        />
-                    </div>
-                    <div className="">
-                        <textarea
-                            name="content"
-                            onChange={(ev) => setAnnouncement({ ...announcement, content: ev.target.value })}
-                            className="border border-[#20BB96] p-1 rounded-lg h-52 m-1 text-center"
-                            placeholder="ঘোষণা..."
-                            value={announcement.content}
-                            required={true}
-                        />
-                    </div>
+            <p className="mb-1 text-lg text-center font-bold"> এলান </p>
+            <div className="w-full">
+                <form className="w-full" action="#" onSubmit={handleSubmit}>
+                    <textarea
+                        name="title"
+                        onChange={(ev) => setAnnouncement({ ...announcement, title: ev.target.value })}
+                        className="border border-[#20BB96] rounded-lg h-fit p-1 m-1 w-full"
+                        placeholder="শিরোনাম"
+                        value={announcement.title}
+                        required={true}
+                    />
+                    <textarea
+                        name="content"
+                        onChange={(ev) => setAnnouncement({ ...announcement, content: ev.target.value })}
+                        className="border border-[#20BB96] rounded-lg h-96 p-1 m-1 w-full"
+                        placeholder="ঘোষণা..."
+                        value={announcement.content}
+                        required={true}
+                    />
                     {
                         authError.flag && (
                             <div
@@ -59,8 +55,8 @@ export default function CreateAnnouncement() {
                         )
                     }
                     {loading === true ? <Loader /> :
-                        (<div className="m-2 mt-4 bg-[#20BB96] rounded-lg"                    >
-                            <button type="submit" className="p-1.5 text-center w-full"                        >
+                        (<div className="m-2 bg-[#20BB96] rounded-lg" >
+                            <button type="submit" className="p-1.5 text-center w-full" >
                                 Send
                             </button>
                         </div>)

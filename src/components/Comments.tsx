@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useRef, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { createCommentsApi } from "../apis/createCommentApi";
 import { getCommentsApi } from "../apis/getComments";
 import { CommentResponse } from "../types/comment";
@@ -28,7 +28,13 @@ export default function Comments() {
                 }
                 setLoading('');
             })
-            .catch((err) => console.error(err))
+            .catch((err) => {
+                console.error(err);
+                setAuthError({ flag: true, details: [err.message] });
+                setTimeout(() => {
+                    setAuthError({ flag: false, details: [] });
+                }, 1000);
+            })
             .finally(() => setLoading(''))
     }
 
@@ -102,12 +108,12 @@ export default function Comments() {
                 }
             </div>
             <form className="m-2 w-full flex justify-center" action="#" onSubmit={handleSubmit}>
-                <div className="m-1">
+                <div className="m-1 w-full">
                     <textarea
                         name="comment"
                         value={comment}
                         onChange={(ev) => setComment(ev.target.value)}
-                        className="border border-[#20BB96] p-1 rounded-lg w-full"
+                        className="border border-[#20BB96] p-1 h-10 hover:h-20 rounded-lg w-full"
                         placeholder="লিখব যা বলতে চাই..."
                         required={true} />
                 </div>
@@ -119,8 +125,8 @@ export default function Comments() {
                     )
                 }
                 {loading === 'sendComment' ? <Loader /> :
-                    (<div className="m-1 mt-4 h-fit bg-[#20BB96] rounded-lg">
-                        <button type="submit" className="p-1.5">
+                    (<div className="m-1 h-fit bg-[#20BB96] rounded-lg">
+                        <button type="submit" className="py-1 px-1.5">
                             Send
                         </button>
                     </div>)

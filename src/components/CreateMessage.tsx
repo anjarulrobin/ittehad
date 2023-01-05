@@ -27,14 +27,14 @@ export default function CreateMessage() {
 
     return (
         <div className="m-2">
-            <p className="mb-2 text-lg text-center font-bold"> My thoughts </p>
+            <p className="mb-1 text-lg text-center font-bold"> মোজাকারা </p>
             <div className="flex justify-center">
-                <form className="" action="#" onSubmit={handleSubmit}>
-                    <div className="m-2">
+                <form className="w-full" action="#" onSubmit={handleSubmit}>
+                    <div className="">
                         <textarea
                             name="message"
                             onChange={(ev) => setMessage(ev.target.value)}
-                            className="border border-[#20BB96] p-1 rounded-lg h-52"
+                            className="border border-[#20BB96] p-1 rounded-lg w-full h-96"
                             placeholder="লিখব যা বলতে চাই..."
                             required={true} />
                     </div>
@@ -46,8 +46,8 @@ export default function CreateMessage() {
                         )
                     }
                     {loading === true ? <Loader /> :
-                        (<div className="m-2 mt-4 bg-[#20BB96] rounded-lg"                    >
-                            <button type="submit" className="p-1.5 text-center w-full"                        >
+                        (<div className="m-2 bg-[#20BB96] rounded-lg" >
+                            <button type="submit" className="p-1.5 text-center w-full">
                                 Send
                             </button>
                         </div>)
