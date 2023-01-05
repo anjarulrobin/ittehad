@@ -14,7 +14,6 @@ export default function AllUsers() {
     useEffect(() => {
         setLoading(true);
         const passingYear = Number(searchParams.get('passingYear'));
-        console.log({ passingYear });
         getUsersApi({ passingYear, skip: skip, limit: LIMIT })
             .then((users) => {
                 if (users.code === 200) {
@@ -40,6 +39,7 @@ export default function AllUsers() {
                     <Link
                         to={`/users/${user.id}`}
                         className="flex items-center h-14 justify-left w-full font-medium text-center rounded-t-[48px]"
+                        key={user.id}
                     >
                         <div className="w-8 h-8 pt-1 bg-[#E8F5F9] rounded-full text-center flex justify-center" >{++currRefId}</div>
                         <span className="px-4">{user.name}</span>
