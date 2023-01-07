@@ -8,10 +8,10 @@ import { Loader } from "./Loader";
 export default function AllUsers() {
     const [users, setUsers] = useState<User[]>([]);
     const [searchParams] = useSearchParams();
-    const LIMIT = 10;
+    const LIMIT = 15;
     const [skip, setSkip] = useState(0);
     const [loading, setLoading] = useState(false);
-
+    const [hasMoreUser, setHasMoreUser] = useState(true);
     const appContext = useContext(AppContext);
 
     useEffect(() => {
@@ -22,12 +22,16 @@ export default function AllUsers() {
         setLoading(true);
         const passingYear = Number(searchParams.get('passingYear'));
         getUsersApi({ passingYear, skip: skip, limit: LIMIT })
-            .then((users) => {
-                if (users.code === 200) {
-                    for (const user of users.data) {
+            .then((userData) => {
+                if (userData.code === 200) {
+                    for (const user of userData.data) {
                         user.id = user._id;
                     }
-                    setUsers(users.data);
+
+                    setUsers([...users, ...userData.data]);
+                    if (userData.data.length < LIMIT) {
+                        setHasMoreUser(false);
+                    }
                 }
                 else {
                     setUsers([]);
@@ -37,12 +41,20 @@ export default function AllUsers() {
             .finally(() => setLoading(false));
     }, [skip]);
 
-
     let currRefId = 0;
     return (
-        <div className="overflow-scroll p-4">
+        <div className="overflow-scroll p-4 h-[600px]"
+            onScroll={(e) => {
+                //@ts-ignore
+                const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+                if (bottom && hasMoreUser) {
+                    console.log("bottom");
+                    setSkip(skip + LIMIT);
+                }
+            }}
+        >
             {
-                users.map((user, index) => (
+                users.map((user) => (
                     <Link
                         to={`/users/${user.id}`}
                         className="flex items-center h-14 justify-left w-full font-medium text-center rounded-t-[48px]"
@@ -53,19 +65,7 @@ export default function AllUsers() {
                     </Link>
                 ))
             }
-            {
-                loading === true ?
-                    <Loader /> :
-                    (<div className="bg-[#20BB96] rounded-lg w-full p-3 text-center"            >
-                        <button
-                            onClick={() => {
-                                setSkip(skip + LIMIT)
-                            }}
-                        > Show More
-                        </button>
-                    </div>)
-            }
-
+            {loading === true && <Loader />}
         </div>
     )
 }

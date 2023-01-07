@@ -11,6 +11,7 @@ import { register } from "./serviceWorkerRegistration";
 import { getAppContextApi } from "./apis/getAppContext";
 import { initFCM, onMessageListener } from "./components/Firebase";
 import { AppContext } from "./contexts/app.context";
+import { Loader } from "./components/Loader";
 
 const UserFilter = lazy(() => import("./components/UserFilter"));
 const Discussion = lazy(() => import("./components/Discussion"));
@@ -32,14 +33,13 @@ const Registration = lazy(() => import("./components/Registration"));
 const SignupRequests = lazy(() => import("./components/SignupRequests"));
 interface UserAppState {
   unReadNotifications?: number;
-  title?: string;
   role?: string;
 }
 
 function App() {
   const mainTitle = 'ইত্তেহাদ';
-  const [appState, setAppState] = useState<UserAppState>({ title: mainTitle });
-  const setTitle = (newTitle: string) => setAppState({ ...appState, title: newTitle });
+  const [appState, setAppState] = useState<UserAppState>({});
+  const [title, setTitle] = useState<string>(mainTitle);
   const navigate = useNavigate();
   onMessageListener().then(payload => {
     if (payload?.data?.type === 'ANNOUNCEMENT') {
@@ -56,27 +56,26 @@ function App() {
     getAppContextApi()
       .then((user) => {
         if (user.code === 200) {
-
           user.data.id = user.data._id;
           setAppState({ ...appState, role: user?.data?.role, unReadNotifications: user?.data?.unReadNotifications });
           localStorage.setItem('user', JSON.stringify(user.data));
         }
         else {
-          setAppState({ title: mainTitle });
+          setAppState({});
         }
       })
       .catch((err) => console.error(err));
   }, []);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader />}>
       <AppContext.Provider value={{ title: mainTitle, setTitle }}>
         <div className="md:flex md:justify-center">
           <div>
             <div className="flex justify-between mt-4 mx-4">
               <div className="flex">
                 {
-                  appState?.title !== mainTitle
+                  title !== mainTitle
                   &&
                   (<div className="mr-3"
                     onClick={() => navigate(-1)}
@@ -88,7 +87,7 @@ function App() {
                   </div>)
                 }
                 <div className="font-ittehad-hind-shiliguri font-ittehad-title text-white text-xl">
-                  {appState?.title}
+                  {title}
                 </div>
               </div>
               <div className="flex justify-between">

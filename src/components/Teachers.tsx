@@ -14,6 +14,9 @@ export default function Teachers() {
     const appContext = useContext(AppContext);
     useEffect(() => {
         appContext?.setTitle('আসাতিযায়ে কেরাম');
+    }, [])
+
+    useEffect(() => {
         setLoading(true);
         getUsersApi({ limit: LIMIT, skip, userType: 'teacher' })
             .then((users) => {
