@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUsersApi } from "../apis/getUsers";
+import { AppContext } from "../contexts/app.context";
 import { User } from "../types/user";
 import { Loader } from "./Loader";
 import CallAndSms from "./utils/CallAndSms";
@@ -10,7 +11,9 @@ export default function Teachers() {
     const [skip, setSkip] = useState<number>(0);
     const [loading, setLoading] = useState(false);
     const LIMIT = 10;
+    const appContext = useContext(AppContext);
     useEffect(() => {
+        appContext?.setTitle('আসাতিযায়ে কেরাম');
         setLoading(true);
         getUsersApi({ limit: LIMIT, skip, userType: 'teacher' })
             .then((users) => {
@@ -31,7 +34,7 @@ export default function Teachers() {
     return (
         <div className="overflow-scroll p-4">
             {
-                users.map((user, index) => (
+                users.map((user) => (
                     <div key={user.id}>
                         <div
                             onClick={() => selectUser(selectedUser === user.id ? '' : user.id)}

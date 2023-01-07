@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../contexts/app.context";
 
 const members = [
     { id: "1", name: "সভাপতিঃ মাওলানা ফয়জুল্লাহ", phone: "01723456791", passingYear: 2010 },
@@ -9,12 +10,17 @@ const committees = [{ id: '1', name: 'উপদেস্টা পর্ষদ' 
 
 export default function Committee() {
     const [committee, setCommittee] = useState<string>('')
+    const appContext = useContext(AppContext);
+
+    useEffect(() => {
+        appContext?.setTitle('শুরা ও কমিটি');
+    }, [])
 
     return (
 
         <div className="mt-3 mx-6">{
             committees.map((commite) => (
-                <div className="m-2">
+                <div className="m-2" key={commite?.id}>
                     <div
                         className="flex justify-between"
                         onClick={() => setCommittee(committee === commite.id ? '' : commite.id)}
@@ -25,7 +31,8 @@ export default function Committee() {
                     {(committee === commite.id) && (<div>
                         {
                             members.map((member) => (
-                                <div className="m-2 flex justify-between">
+                                <div className="m-2 flex justify-between"
+                                    key={member?.id}>
                                     <div>
                                         <p className="m-1">{member.name}</p>
                                         <p className="m-1"> {member.phone}</p>

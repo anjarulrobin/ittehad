@@ -1,16 +1,16 @@
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import './App.css';
 import {
   Route,
-  HashRouter as Router,
   Routes,
   Link,
+  useNavigate,
 } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import { register } from "./serviceWorkerRegistration";
-import { UserAppContext } from "./types/user";
 import { getAppContextApi } from "./apis/getAppContext";
 import { initFCM, onMessageListener } from "./components/Firebase";
+import { AppContext } from "./contexts/app.context";
 
 const UserFilter = lazy(() => import("./components/UserFilter"));
 const Discussion = lazy(() => import("./components/Discussion"));
@@ -30,18 +30,24 @@ const Comments = lazy(() => import("./components/Comments"));
 const CreateAnnouncement = lazy(() => import("./components/CreateAnnouncement"));
 const Registration = lazy(() => import("./components/Registration"));
 const SignupRequests = lazy(() => import("./components/SignupRequests"));
+interface UserAppState {
+  unReadNotifications?: number;
+  title?: string;
+  role?: string;
+}
 
 function App() {
-  const title = 'ইত্তেহাদ';
-  const [appContext, setAppContext] = useState<UserAppContext | null>(null);
-
+  const mainTitle = 'ইত্তেহাদ';
+  const [appState, setAppState] = useState<UserAppState>({ title: mainTitle });
+  const setTitle = (newTitle: string) => setAppState({ ...appState, title: newTitle });
+  const navigate = useNavigate();
   onMessageListener().then(payload => {
     if (payload?.data?.type === 'ANNOUNCEMENT') {
-      const newContext = { ...appContext };
+      const newContext = { ...appState };
       newContext.unReadNotifications = newContext.unReadNotifications || 0;
       newContext.unReadNotifications += 1;
       //@ts-ignore
-      setAppContext(newContext);
+      setAppState(newContext);
     }
   })
     .catch(err => console.log('failed: ', err));
@@ -52,11 +58,11 @@ function App() {
         if (user.code === 200) {
 
           user.data.id = user.data._id;
-          setAppContext(user.data);
+          setAppState({ ...appState, role: user?.data?.role, unReadNotifications: user?.data?.unReadNotifications });
           localStorage.setItem('user', JSON.stringify(user.data));
         }
         else {
-          setAppContext(null);
+          setAppState({ title: mainTitle });
         }
       })
       .catch((err) => console.error(err));
@@ -64,28 +70,34 @@ function App() {
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Router>
+      <AppContext.Provider value={{ title: mainTitle, setTitle }}>
         <div className="md:flex md:justify-center">
           <div>
             <div className="flex justify-between mt-4 mx-4">
-              <div className="font-ittehad-hind-shiliguri font-ittehad-title text-white text-xl">
-                {title}
+              <div className="flex">
+                {
+                  appState?.title !== mainTitle
+                  &&
+                  (<div className="mr-3"
+                    onClick={() => navigate(-1)}
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9.57 5.93005L3.5 12.0001L9.57 18.0701" stroke="white" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M20.5 12H3.67" stroke="white" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>)
+                }
+                <div className="font-ittehad-hind-shiliguri font-ittehad-title text-white text-xl">
+                  {appState?.title}
+                </div>
               </div>
               <div className="flex justify-between">
-                <Link to="/"
-                  className="mr-1"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                  </svg>
-                </Link>
-
                 <Link to="/announcement"
                   className="mr-1"
                 >
                   <strong className="relative inline-flex items-center px-1 py-1 text-sm font-medium">
-                    <span className={`${!appContext?.unReadNotifications && 'hidden'} absolute -top-1 -right-1 h-5 w-5 flex justify-center bg-red-600 text-white rounded-lg items-center`}>
-                      <span >{appContext?.unReadNotifications}</span>
+                    <span className={`${!appState?.unReadNotifications && 'hidden'} absolute -top-1 -right-1 h-5 w-5 flex justify-center bg-red-600 text-white rounded-lg items-center`}>
+                      <span >{appState?.unReadNotifications}</span>
                     </span>
                     <svg width="24" height="24" viewBox="0 2 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M19.34 14.49L18.34 12.83C18.13 12.46 17.94 11.76 17.94 11.35V8.82C17.94 6.47 16.56 4.44 14.57 3.49C14.05 2.57 13.09 2 11.99 2C10.9 2 9.92 2.59 9.4 3.52C7.45 4.49 6.1 6.5 6.1 8.82V11.35C6.1 11.76 5.91 12.46 5.7 12.82L4.69 14.49C4.29 15.16 4.2 15.9 4.45 16.58C4.69 17.25 5.26 17.77 6 18.02C7.94 18.68 9.98 19 12.02 19C14.06 19 16.1 18.68 18.04 18.03C18.74 17.8 19.28 17.27 19.54 16.58C19.8 15.89 19.73 15.13 19.34 14.49Z" fill="white" />
@@ -94,7 +106,7 @@ function App() {
                   </strong>
                 </Link>
                 {
-                  ['admin', 'superadmin'].includes(appContext?.role || '') &&
+                  ['admin', 'superadmin'].includes(appState?.role || '') &&
                   <Link to='/signup-requests'
                     className="mr-1"
                   >
@@ -141,7 +153,7 @@ function App() {
           </div>
 
         </div>
-      </Router >
+      </AppContext.Provider >
     </Suspense>
   );
 }

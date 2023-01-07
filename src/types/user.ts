@@ -102,11 +102,8 @@ export interface UserProfile {
     },
     fathersName: string;
     bloodGroup: string;
-}
-export interface UserAppContext extends UserProfile {
+    role: 'admin' | 'superadmin';
     unReadNotifications: number;
-    unreadMessageCount: number;
-    role: string;
 }
 
 interface GetProfileSuccessResponse extends CommonResponse {
@@ -129,15 +126,15 @@ interface GetUserFailedResponse extends CommonResponse {
     code: 400;
 }
 
-interface UserAppContextSuccessResponse extends CommonResponse {
+interface AppDataResponseSuccessResponse extends CommonResponse {
     code: 200;
-    data: UserAppContext
+    data: AppDataResponse
 }
 
-interface UserAppContextFailedResponse extends CommonResponse {
+interface AppDataResponseFailedResponse extends CommonResponse {
     code: 400;
 }
 
 export type UserResponse = GetUserSuccessResponse | GetUserFailedResponse;
-export type UserAppContextResponse = UserAppContextSuccessResponse | UserAppContextFailedResponse;
+export type AppDataResponse = AppDataResponseSuccessResponse | AppDataResponseFailedResponse;
 

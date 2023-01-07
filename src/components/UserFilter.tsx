@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { AppContext } from "../contexts/app.context";
 import { getYearList } from "./utils/YearList";
 import { getYearRange } from "./utils/YearRange";
 
@@ -20,6 +21,11 @@ export default function UserFilter() {
         selectedYear: 0,
     });
     const yearRange = getYearRange();
+    const appContext = useContext(AppContext);
+
+    useEffect(() => {
+        appContext?.setTitle('ফুজালা ওয়া আবনা');
+    }, [])
 
     return (
         <div className="p-4">
@@ -39,7 +45,7 @@ export default function UserFilter() {
                     <div className="grid grid-cols-3 mt-2 gap-2">
                         {yearRange.map((range) => (
                             <div
-                                className="bg-[#20BB96] rounded-lg m-1 p-1 w-20 h-12 flex text-center justify-center"
+                                className="bg-[#20BB96] rounded-lg m-1 py-1 min-w-fit flex text-center justify-center"
                                 key={`${range.start}-${range.end}`}
                             >
                                 <button
@@ -58,7 +64,8 @@ export default function UserFilter() {
                     <div className="grid grid-cols-3 mt-2 gap-2">
                         {getYearList(yearSelection.startYear, yearSelection.endYear).map((year) => (
                             <div
-                                className="bg-[#20BB96] rounded-lg m-1 p-1 w-20 h-12 flex text-center justify-center"
+                                className="bg-[#20BB96] rounded-lg m-1 py-1 min-w-fit flex text-center justify-center"
+                                key={year}
                             >
                                 <Link to={`/users/all?passingYear=${year}`}
                                 >

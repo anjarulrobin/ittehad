@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAnnouncementsApi } from "../apis/getAnnouncements";
+import { AppContext } from "../contexts/app.context";
 import { AnnouncementResponse } from "../types/announcements";
 import { isAdminUser } from "../utils/isAdminUser";
 import { getBanglaDate } from "./utils/getBanglaDate";
 
 export default function Announcements() {
     const [announcements, setAnnouncements] = useState<AnnouncementResponse[]>([]);
+    const appContext = useContext(AppContext);
+
+    useEffect(() => {
+        appContext?.setTitle('এলান');
+    }, [])
 
     useEffect(() => {
         getAnnouncementsApi({ limit: 15, skip: 0, type: 'GENERAL' })

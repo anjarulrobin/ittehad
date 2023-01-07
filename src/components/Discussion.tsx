@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMessagesApi } from "../apis/getMessages";
+import { AppContext } from "../contexts/app.context";
 import { Loader } from "./Loader";
 import { getBanglaDate } from "./utils/getBanglaDate";
 
@@ -23,6 +24,12 @@ export default function Discussion() {
     const [skip, setSkip] = useState<number>(0);
     const [loading, setLoading] = useState(false);
     const LIMIT = 10;
+
+    const appContext = useContext(AppContext);
+
+    useEffect(() => {
+        appContext?.setTitle('মোজাকারা');
+    }, [])
 
     useEffect(() => {
         setLoading(true);

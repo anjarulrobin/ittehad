@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getUsersApi } from "../apis/getUsers";
+import { AppContext } from "../contexts/app.context";
 import { User } from "../types/user";
 import CallAndSms from "./utils/CallAndSms";
 
@@ -38,6 +39,12 @@ export default function Representetives() {
         selectedYear: 0,
     });
     const yearRange = getYearRange();
+
+    const appContext = useContext(AppContext);
+
+    useEffect(() => {
+        appContext?.setTitle('সনওয়ারী জিম্মাদার');
+    }, [])
 
     useEffect(() => {
         getUsersApi({ limit: 15, skip: 0, passingYear: 2020, userTags: 'Jimmadar' })

@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { getUsersApi } from "../apis/getUsers";
+import { AppContext } from "../contexts/app.context";
 import { User } from "../types/user";
 import { Loader } from "./Loader";
 
@@ -10,6 +11,12 @@ export default function AllUsers() {
     const LIMIT = 10;
     const [skip, setSkip] = useState(0);
     const [loading, setLoading] = useState(false);
+
+    const appContext = useContext(AppContext);
+
+    useEffect(() => {
+        appContext?.setTitle('ফুজালা ওয়া আবনা');
+    }, [])
 
     useEffect(() => {
         setLoading(true);

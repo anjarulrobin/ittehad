@@ -1,4 +1,13 @@
+import { useContext, useEffect } from "react";
+import { AppContext } from "../contexts/app.context";
+
 export default function Contact() {
+    const appContext = useContext(AppContext);
+
+    useEffect(() => {
+        appContext?.setTitle('যোগাযোগ');
+    }, [])
+
     return (
         <div className="m-3">
             <div className="flex justify-center items-center">
