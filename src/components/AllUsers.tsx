@@ -43,10 +43,10 @@ export default function AllUsers() {
 
     let currRefId = 0;
     return (
-        <div className="overflow-scroll p-4 h-[600px]"
+        <div className="overflow-scroll p-4 h-[90vh]"
             onScroll={(e) => {
                 //@ts-ignore
-                const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+                const bottom = Math.round(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
                 if (bottom && hasMoreUser) {
                     console.log("bottom");
                     setSkip(skip + LIMIT);
